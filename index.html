@@ -1,758 +1,637 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Noth Coffee — Menü</title>
-
-  <!-- Basit reset + font -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-  <style>
-    :root{
-      --bg:#fbfaf9;
-      --panel: rgba(255,255,255,0.6);
-      --muted:#6b6b6b;
-      --accent-1: #87888d;
-      --accent-2: #fcfdff;
-      --card-radius:16px;
-      --glass-blur:8px;
-      --shadow: 0 8px 30px rgba(16,24,40,0.08);
-      --text:#111;
-      --success:#16a34a;
-      --danger:#ef4444;
-      --transition: 280ms cubic-bezier(.2,.9,.3,1);
-    }
-    @media(prefers-color-scheme:dark){
-      :root{
-        --bg: #0b1020;
-        --panel: rgba(12,18,28,0.5);
-        --muted:#c7c7d1;
-        --text:#fff;
-        --shadow: 0 10px 30px rgba(0,0,0,0.6);
-      }
-    }
-    html,body{
-      height:100%;
-      margin:0;
-      font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-      background: linear-gradient(135deg,var(--accent-1) 0%, var(--accent-2) 100%);
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-      color:var(--text);
-    }
-
-    /* Page wrapper */
-    .page {
-      min-height:100vh;
-      display:flex;
-      align-items:flex-start;
-      justify-content:center;
-      padding:20px;
-    }
-
-    /* HERO */
-    .hero {
-      width:100%;
-      max-width:1100px;
-      position:relative;
-      border-radius:20px;
-      overflow:hidden;
-      box-shadow:var(--shadow);
-      background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.85));
-    }
-
-    /* top area with video */
-    .hero-top{
-      position:relative;
-      height:45vh;
-      min-height:260px;
-      max-height:420px;
-      overflow:hidden;
-    }
-    .hero-top video{
-      position:absolute;
-      inset:0;
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      filter: saturate(0.95) contrast(1.02);
-      transform: scale(1.05);
-      transition: transform 800ms ease;
-      pointer-events:none;
-    }
-    .hero-top .video-overlay{
-      position:absolute;
-      inset:0;
-      background: linear-gradient(180deg, rgba(250,250,250,0.3), rgba(0,0,0,0.18));
-      backdrop-filter: blur(2px);
-    }
-
-    /* logo */
-    .brand{
-      position:absolute;
-      left:50%;
-      transform:translateX(-50%);
-      bottom: -28px; /* overlaps into content */
-      z-index:20;
-      display:flex;
-      align-items:center;
-      gap:12px;
-      background: linear-gradient(90deg, rgba(255,255,255,0.9), rgba(255,255,255,0.7));
-      padding:10px 18px;
-      border-radius:999px;
-      box-shadow:0 8px 20px rgba(0,0,0,0.12);
-      backdrop-filter: blur(6px);
-    }
-    .brand img{ width:86px; height:auto; display:block; border-radius:8px; }
-
-    /* control row */
-    .controls{
-      display:flex;
-      gap:8px;
-      align-items:center;
-      position:absolute;
-      right:16px;
-      top:16px;
-      z-index:30;
-    }
-    .lang-btn, .theme-btn{
-      background:rgba(255,255,255,0.85);
-      border:0;
-      padding:8px 10px;
-      border-radius:10px;
-      font-weight:600;
-      cursor:pointer;
-      transition:all var(--transition);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
-    }
-    .lang-btn.active, .theme-btn.active{ transform:translateY(-2px); box-shadow: 0 10px 25px rgba(0,0,0,0.12); }
-
-    /* MENU button */
-    .open-menu{
-      display:block;
-      margin:28px auto 10px;
-      background:linear-gradient(90deg,var(--accent-1),var(--accent-2));
-      color:white;
-      border:0;
-      padding:12px 18px;
-      border-radius:12px;
-      font-weight:700;
-      cursor:pointer;
-      letter-spacing:1px;
-      transition:all var(--transition);
-      width:calc(100% - 48px);
-      max-width:420px;
-      text-align:center;
-      box-shadow: 0 8px 30px rgba(118,75,162,0.18);
-    }
-    .open-menu:active{ transform:translateY(1px) scale(0.998); }
-
-    /* menu section (sliding) */
-    .menu-section{
-      width:100%;
-      max-width:1100px;
-      background: transparent;
-      position:relative;
-      transform: translateY(110%);
-      transition: transform 420ms cubic-bezier(.2,.9,.3,1);
-      will-change: transform;
-      z-index:10;
-    }
-    .menu-section.open{
-      transform: translateY(0);
-    }
-
-    .menu-panel{
-      background: var(--panel);
-      border-radius:20px 20px 8px 8px;
-      padding:22px;
-      box-shadow:var(--shadow);
-      backdrop-filter: blur(var(--glass-blur));
-      margin-top: 10px;
-    }
-
-    /* categories grid */
-.category-grid{
-  display: grid;
-  gap: 14px;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  margin-top: 18px;
-}
-
-/* kartlar */
-.card {
-  position: relative;
-  border-radius: var(--card-radius);
-  overflow: hidden;
-  aspect-ratio: 1/1;
-  min-height: 140px;
-  background: linear-gradient(180deg, rgba(0,0,0,0.03), rgba(0,0,0,0.02));
-  box-shadow: 0 6px 18px rgba(2,6,23,0.06);
-  transition: transform 360ms ease, box-shadow 360ms ease;
-}
-
-.card:hover{
-  transform: translateY(-6px) scale(1.03);
-  box-shadow: 0 18px 40px rgba(2,6,23,0.12);
-}
-
-.card img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  transition: transform 500ms ease, filter 500ms ease;
-}
-
-.card:hover img {
-  transform: scale(1.08);
-  filter: brightness(1.05);
-}
-
-.card-label {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  bottom: 12px;
-  z-index: 10;
-  padding: 8px 14px;
-  border-radius: 10px;
-  backdrop-filter: blur(8px);
-  background: rgba(0,0,0,0.5);
-  color: white;
-  font-weight: 700;
-  font-size: 15px;
-  text-align: center;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.18);
-  transition: all 280ms ease;
-}
-
-.card:hover .card-label{
-  background: rgba(0,0,0,0.65);
-}
-
-
-    /* category open view */
-    .category-view{
-      display:none;
-      padding-top:6px;
-    }
-    .category-view.open{
-      display:block;
-    }
-    .back-fixed{
-      position:fixed;
-      left:16px;
-      top:18px;
-      z-index:60;
-      background:var(--panel);
-      border-radius:999px;
-      padding:8px 12px;
-      box-shadow:var(--shadow);
-      cursor:pointer;
-      display:flex;
-      gap:8px;
-      align-items:center;
-      transform:translateY(0);
-      transition:all 260ms;
-    }
-
-    .items-list{ margin-top:16px; display:grid; gap:12px; }
-
-    .item {
-      background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.82));
-      padding:14px;
-      border-radius:12px;
-      display:flex;
-      justify-content:space-between;
-      align-items:flex-start;
-      gap:12px;
-      box-shadow: 0 8px 25px rgba(2,6,23,0.06);
-      transition: transform 260ms, box-shadow 260ms;
-    }
-    .item:hover{ transform: translateY(-3px); box-shadow: 0 18px 40px rgba(2,6,23,0.08); }
-    .item h4{ margin:0; font-size:16px; font-weight:700; }
-    .item p{ margin:6px 0 0; color:var(--muted); font-size:13px; }
-
-    /* small helpers */
-    .row{ display:flex; gap:8px; align-items:center; }
-    .muted{ color:var(--muted); font-size:13px; }
-
-    /* tiny toast */
-    .toast {
-      position:fixed;
-      right:18px;
-      bottom:18px;
-      background:rgba(0,0,0,0.8);
-      color:white;
-      padding:10px 14px;
-      border-radius:10px;
-      z-index:1000;
-      transform: translateY(12px);
-      opacity:0;
-      transition: all 260ms;
-      pointer-events:none;
-      font-weight:600;
-    }
-    .toast.show{ opacity:1; transform: translateY(0); pointer-events:auto; }
-
-    /* responsive tuning */
-    @media (max-width:900px){
-      .hero-top{ height:38vh; min-height:200px; }
-      .brand{ bottom:-22px; padding:8px 12px; gap:8px; }
-      .card{ min-height:120px; }
-    }
-    @media (max-width:600px){
-      :root{ --card-radius:12px; }
-      .page{ padding:12px; }
-      .hero{ border-radius:14px; }
-      .category-grid{ gap:10px; grid-template-columns: repeat(2, 1fr); }
-      .open-menu{ width:calc(100% - 36px); max-width:none; }
-      .brand img{ width:72px; }
-      .card{ aspect-ratio: 4/3; min-height:140px; }
-      .card-label{ font-size:16px; bottom:12px; padding:8px 14px; }
-      .back-fixed{ left:10px; top:12px; padding:8px; }
-      .controls{ right:8px; top:8px; gap:6px; }
-    }
-
-    /* accessibility focus */
-    button:focus { outline: 3px solid rgba(102,126,234,0.22); outline-offset: 3px; }
-  </style>
-</head>
-<body>
-  <div class="page">
-    <main style="width:100%;max-width:1100px;">
-      <section class="hero" aria-hidden="false">
-        <div class="hero-top" role="img" aria-label="Noth Coffee görseli">
-          <!-- video: güncelle -->
-          <video class="bg-video" autoplay muted loop playsinline preload="metadata">
-            <source src="videos/background.mp4" type="video/mp4">
-          </video>
-          <div class="video-overlay"></div>
-
-          <div class="controls" aria-hidden="false">
-            <div>
-              <button class="lang-btn active" data-lang="tr" aria-pressed="true">TR</button>
-              <button class="lang-btn" data-lang="en">EN</button>
-              <button class="lang-btn" data-lang="ru">RU</button>
-            </div>
-            <button id="themeToggle" class="theme-btn" title="Tema değiştir">🌓</button>
-          </div>
-
-          <div class="brand" aria-hidden="false">
-            <img src="images/logo.png" alt="Noth Coffee logo">
-            <div style="font-weight:700; font-size:14px">Noth Coffee</div>
-          </div>
-        </div>
-
-        <button id="openMenu" class="open-menu" aria-expanded="false">Menüyü Aç</button>
-      </section>
-
-      <!-- Sliding menu -->
-      <section id="menuSection" class="menu-section" aria-hidden="true">
-        <div class="menu-panel" role="region" aria-label="Menü">
-          <div style="display:flex; justify-content:space-between; align-items:center;">
-            <div style="display:flex;gap:8px;align-items:center">
-              <strong style="font-size:18px">Kategoriler</strong>
-              <span class="muted" id="categoriesCount"></span>
-            </div>
-            <div style="display:flex;gap:8px;align-items:center">
-              <!-- sync language buttons (menu-level) -->
-              <button class="lang-btn menu-lang active" data-lang="tr" aria-pressed="true">TR</button>
-              <button class="lang-btn menu-lang" data-lang="en">EN</button>
-              <button class="lang-btn menu-lang" data-lang="ru">RU</button>
-            </div>
-          </div>
-
-          <!-- categories -->
-          <div id="categoriesRoot" class="category-grid" aria-live="polite" style="margin-top:14px"></div>
-
-          <!-- category view (hidden) -->
-          <div id="categoryView" class="category-view" aria-hidden="true">
-            <!-- fixed back button -->
-            <button id="backFixed" class="back-fixed" aria-hidden="false" title="Geri" style="display:none">
-              ← Geri
-            </button>
-            <div id="categoryTitle" style="font-weight:700; font-size:20px; margin-top:8px;"></div>
-            <div id="itemsList" class="items-list"></div>
-          </div>
-        </div>
-      </section>
-
-    </main>
-  </div>
-
-  <!-- toast -->
-  <div id="toast" class="toast" role="status" aria-live="polite"></div>
-
-  <script>
-    /* ----------------------
-       Küresel değişkenler
-       ---------------------- */
-    const API_BASE = 'https://nothbackend.onrender.com/api/menu';
-    let currentLang = 'tr';
-    let menuData = null;
-    let menuOpen = false;
-    const openButton = document.getElementById('openMenu');
-    const menuSection = document.getElementById('menuSection');
-    const categoriesRoot = document.getElementById('categoriesRoot');
-    const toastEl = document.getElementById('toast');
-    const categoriesCount = document.getElementById('categoriesCount');
-    const categoryView = document.getElementById('categoryView');
-    const categoryTitle = document.getElementById('categoryTitle');
-    const itemsList = document.getElementById('itemsList');
-    const backFixed = document.getElementById('backFixed');
-
-    /* ----------------------
-       Small utilities
-       ---------------------- */
-    function showToast(text, type='') {
-      toastEl.textContent = text;
-      toastEl.style.background = type === 'error' ? 'rgba(220,38,38,0.9)' : 'rgba(0,0,0,0.8)';
-      toastEl.classList.add('show');
-      clearTimeout(toastEl._t);
-      toastEl._t = setTimeout(()=> toastEl.classList.remove('show'), 3500);
-    }
-
-    function fetchWithTimeout(url, opts = {}, timeout = 8000) {
-      return Promise.race([
-        fetch(url, opts),
-        new Promise((_, rej) => setTimeout(()=> rej(new Error('timeout')), timeout))
-      ]);
-    }
-
-    /* ----------------------
-       Language sync
-       ---------------------- */
-    function setLangButtons(lang) {
-      currentLang = lang;
-      document.querySelectorAll('.lang-btn').forEach(b=>{
-        b.classList.toggle('active', b.dataset.lang === lang);
-        b.setAttribute('aria-pressed', b.dataset.lang === lang ? 'true' : 'false');
-      });
-      document.querySelectorAll('.menu-lang').forEach(b=>{
-        b.classList.toggle('active', b.dataset.lang === lang);
-        b.setAttribute('aria-pressed', b.dataset.lang === lang ? 'true' : 'false');
-      });
-    }
-    // add listeners
-    document.querySelectorAll('.lang-btn').forEach(btn=>{
-      btn.addEventListener('click', (e)=>{
-        const lang = btn.dataset.lang;
-        setLangButtons(lang);
-        if(menuOpen) loadMenu();
-      });
-    });
-    document.querySelectorAll('.menu-lang').forEach(btn=>{
-      btn.addEventListener('click', (e)=>{
-        const lang = btn.dataset.lang;
-        setLangButtons(lang);
-        if(menuOpen) loadMenu();
-      });
-    });
-
-    /* ----------------------
-       Theme toggle (auto + manual)
-       ---------------------- */
-    const themeToggle = document.getElementById('themeToggle');
-    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme:dark)').matches;
-    let forcedTheme = null; // 'dark' | 'light' | null
-
-    function applyTheme(theme){
-      if(theme === 'dark') document.documentElement.style.setProperty('--panel','rgba(12,18,28,0.6)');
-      else document.documentElement.style.setProperty('--panel','rgba(255,255,255,0.6)');
-      themeToggle.classList.toggle('active', theme === 'dark');
-    }
-
-    function initTheme(){
-      const saved = localStorage.getItem('noth-theme');
-      if(saved){ forcedTheme = saved; applyTheme(saved); }
-      else applyTheme(prefersDark ? 'dark' : 'light');
-    }
-    themeToggle.addEventListener('click', ()=>{
-      const newTheme = (forcedTheme === 'dark' ? 'light' : 'dark');
-      forcedTheme = newTheme;
-      localStorage.setItem('noth-theme', newTheme);
-      applyTheme(newTheme);
-      showToast('Tema kaydedildi');
-    });
-    initTheme();
-
-    /* ----------------------
-       Menu open/close + animation
-       ---------------------- */
-    openButton.addEventListener('click', (e)=>{
-      e.preventDefault();
-      toggleMenu(true);
-    });
-
-    function toggleMenu(open){
-      menuOpen = open;
-      if(open){
-        menuSection.classList.add('open');
-        menuSection.setAttribute('aria-hidden','false');
-        openButton.setAttribute('aria-expanded','true');
-        // load data when opening
-        loadMenu();
-      } else {
-        menuSection.classList.remove('open');
-        menuSection.setAttribute('aria-hidden','true');
-        openButton.setAttribute('aria-expanded','false');
-        closeCategoryView();
-      }
-      // scroll to top for mobile
-      window.scrollTo({top:0, behavior:'smooth'});
-    }
-
-    /* ----------------------
-       Load menu from API with error handling
-       ---------------------- */
-    async function loadMenu(){
-      categoriesRoot.innerHTML = ''; 
-      categoriesCount.textContent = 'Yükleniyor...';
-      try {
-        const res = await fetchWithTimeout(`${API_BASE}/${currentLang}`, {}, 9000);
-        if(!res.ok) throw new Error('Sunucudan veri alınamadı ('+res.status+')');
-        const data = await res.json();
-        // Basic validation
-        if(!data || !Array.isArray(data.categories)) throw new Error('Geçersiz veri formatı');
-        menuData = data;
-        renderCategories(data.categories);
-      } catch(err){
-        console.error(err);
-        categoriesCount.textContent = '';
-        showToast('Menü yüklenemedi: ' + (err.message || 'Bilinmeyen hata'), 'error');
-      }
-    }
-
-    /* ----------------------
-       Render categories
-       ---------------------- */
-    function renderCategories(categories){
-      categoriesRoot.innerHTML = '';
-      categoriesCount.textContent = `${categories.length} kategori`;
-      const frag = document.createDocumentFragment();
-
-      categories.forEach((c, idx)=>{
-        const card = document.createElement('button');
-        card.className = 'card';
-        card.type = 'button';
-        card.setAttribute('aria-label', c.name);
-        card.dataset.index = idx;
-
-        // lazy image with data-src
-        const img = document.createElement('img');
-        img.alt = c.name;
-        img.loading = 'lazy';
-        img.dataset.src = c.image || 'images/placeholder.jpg';
-        img.src = 'images/placeholder-blur.jpg'; // very small placeholder (optional)
-        card.appendChild(img);
-
-        const label = document.createElement('div');
-        label.className = 'card-label';
-        label.textContent = c.name;
-        card.appendChild(label);
-
-        // click
-        card.addEventListener('click', ()=> openCategory(idx));
-
-        frag.appendChild(card);
-      });
-
-      categoriesRoot.appendChild(frag);
-
-      // lazy-load observer
-      lazyLoadImages();
-      // card appear animation
-      requestAnimationFrame(()=> {
-        document.querySelectorAll('.card').forEach((el,i)=>{
-          el.style.opacity = 0;
-          el.style.transform = 'translateY(12px) scale(0.98)';
-          setTimeout(()=> {
-            el.style.transition = 'opacity 420ms ease, transform 420ms ease';
-            el.style.opacity = 1;
-            el.style.transform = '';
-          }, 40 + i*60);
-        });
-      });
-    }
-
-    /* ----------------------
-       Lazy load images (IntersectionObserver)
-       ---------------------- */
-    function lazyLoadImages(){
-      const imgs = document.querySelectorAll('img[data-src]');
-      if('IntersectionObserver' in window){
-        const obs = new IntersectionObserver((entries, observer)=>{
-          entries.forEach(entry=>{
-            if(entry.isIntersecting){
-              const img = entry.target;
-              img.src = img.dataset.src;
-              img.removeAttribute('data-src');
-              observer.unobserve(img);
-            }
-          });
-        }, {rootMargin:'120px'});
-        imgs.forEach(i=> obs.observe(i));
-      } else {
-        imgs.forEach(i=> { i.src = i.dataset.src; i.removeAttribute('data-src'); });
-      }
-    }
-
-    /* ----------------------
-       Open category (show items)
-       ---------------------- */
-    function openCategory(idx){
-      if(!menuData || !menuData.categories || !menuData.categories[idx]) return;
-      const cat = menuData.categories[idx];
-      categoryTitle.textContent = cat.name;
-      itemsList.innerHTML = '';
-
-      // show fixed back button
-      backFixed.style.display = 'flex';
-
-      // render items
-      const frag = document.createDocumentFragment();
-      (cat.items || []).forEach(it=>{
-        const row = document.createElement('div');
-        row.className = 'item';
-        const left = document.createElement('div');
-        left.style.flex = '1';
-        const h = document.createElement('h4');
-        h.textContent = it.name || '—';
-        const p = document.createElement('p');
-        p.textContent = it.description || '';
-        left.appendChild(h);
-        left.appendChild(p);
-
-        const right = document.createElement('div');
-        right.style.textAlign = 'right';
-        right.style.minWidth = '80px';
-        const price = document.createElement('div');
-        price.textContent = it.price || '';
-        price.style.fontWeight = '800';
-        price.style.fontSize = '15px';
-        right.appendChild(price);
-
-        row.appendChild(left);
-        row.appendChild(right);
-        frag.appendChild(row);
-      });
-
-      itemsList.appendChild(frag);
-
-      // show view
-      categoryView.classList.add('open');
-      categoryView.setAttribute('aria-hidden','false');
-      // scroll into view smoothly
-      categoryView.scrollIntoView({behavior:'smooth', block:'start'});
-    }
-
-    /* ----------------------
-       Close category view
-       ---------------------- */
-    function closeCategoryView(){
-      categoryView.classList.remove('open');
-      categoryView.setAttribute('aria-hidden','true');
-      backFixed.style.display = 'none';
-      // clear items (light)
-      // itemsList.innerHTML = '';
-    }
-
-    backFixed.addEventListener('click', ()=>{
-      closeCategoryView();
-    });
-
-    /* ----------------------
-       Click outside to close menu (escape)
-       ---------------------- */
-    document.addEventListener('keydown', (e)=>{
-      if(e.key === 'Escape'){
-        if(categoryView.classList.contains('open')) closeCategoryView();
-        else if(menuSection.classList.contains('open')) toggleMenu(false);
-      }
-    });
-
-    // close menu when clicking open button again
-    openButton.addEventListener('dblclick', (e)=> toggleMenu(false));
-    // clicking background area will close menu if open (mobile friendly)
-    menuSection.addEventListener('click', (e)=>{
-      if(e.target === menuSection) toggleMenu(false);
-    });
-
-    /* ----------------------
-       Initial load: try to prefetch minimal menu metadata (no heavy images)
-       ---------------------- */
-    (function init(){
-      // show prefetch small summary (non-blocking)
-      // don't fail loudly here
-      fetchWithTimeout(`${API_BASE}/${currentLang}`, {}, 4000)
-        .then(r => r.json())
-        .then(d => {
-          if(d && Array.isArray(d.categories)) {
-            // quick-render first 4 categories small preview
-            // but keep menu closed
-            menuData = d;
-            categoriesCount.textContent = `${d.categories.length} kategori`;
-            // small preview inside hero (optional) — omitted to keep UI sade
-          }
-        })
-        .catch(()=> {/* ignore */});
-    })();
-
-    /* ----------------------
-       Accessibility: make buttons keyboard-usable and focusable
-       ---------------------- */
-    document.querySelectorAll('button').forEach(btn=>{
-      btn.addEventListener('keydown', (e)=>{
-        if(e.key === 'Enter' || e.key === ' ') btn.click();
-      });
-    });
-
-    /* ----------------------
-       Performance: pause video when menu open (reduce codec usage on mobile)
-       ---------------------- */
-    const videoEl = document.querySelector('.bg-video');
-    const observerOptions = { root: null, threshold: 0.5 };
-    const heroTop = document.querySelector('.hero-top');
-
-    const visObserver = new IntersectionObserver(entries=>{
-      entries.forEach(en=>{
-        if(!en.isIntersecting){
-          // pause or lower activity
-          if(!videoEl.paused) try{ videoEl.pause(); }catch(e){}
-        } else {
-          try{ videoEl.play(); }catch(e){}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noth Coffee Menu</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
-      });
-    }, observerOptions);
-    visObserver.observe(heroTop);
+        body.dark-mode {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: #ecf0f1;
+        }
+        .hero-section {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            padding-bottom: 20px;
+        }
+        .hero-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 70vh;
+            object-fit: cover;
+            z-index: 20;
+            pointer-events: none;
+        }
+        .hero-video::-webkit-media-controls {
+            display: none !important;
+        }
+        .hero-video::-webkit-media-controls-panel {
+            display: none !important;
+        }
+        .hero-video::-webkit-media-controls-play-button {
+            display: none !important;
+        }
+        .hero-video::-moz-media-controls {
+            display: none !important;
+        }
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(255, 255, 255, 0.856);
+            z-index: 10;
+        }
+        .logo {
+            position: absolute;
+            top: 60vh;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 100;
+        }
+        .logo img {
+            width: 230px;
+            height: 200px;
+        }
+        .language-buttons {
+            position: absolute;
+            bottom: 120px;
+            right: 20px;
+            z-index: 10;
+        }
+        .language-buttons a {
+            color: rgb(255, 255, 255);
+            margin: 0 10px;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 5px;
+            background-color: rgb(0, 0, 0);
+            transition: background-color 0.3s;
+            cursor: pointer;
+        }
+        .language-buttons a:hover {
+            background-color: rgb(0, 0, 0);
+        }
+        .language-buttons a.active {
+            background-color: rgb(0, 0, 0);
+        }
+        .menu-button {
+            z-index: 10;
+            background-color: #000000;
+            color: white;
+            border: none;
+            padding: 20px 100px;
+            font-size: 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            width: 100vw;
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+        }
+        .menu-button:hover {
+            background-color: #5c6164;
+        }
+        .menu-section {
+            display: none;
+            padding: 50px 0;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            position: relative;
+            min-height: 100vh;
+        }
+        body.dark-mode .menu-section {
+            background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
+        }
+        .menu-language-buttons {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            z-index: 10;
+        }
+        .menu-language-buttons a {
+            color: #333;
+            margin: 0 10px;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            cursor: pointer;
+        }
+        .menu-language-buttons a:hover {
+            background-color: rgba(0,0,0,0.1);
+        }
+        .menu-language-buttons a.active {
+            background-color: rgba(0,0,0,0.2);
+        }
+        .categories-view {
+            display: block;
+        }
+        .category-view {
+            display: none;
+        }
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+        .category-card {
+            background-color: transparent;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            aspect-ratio: 1;
+        }
+        .category-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        }
+        .category-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+        .category-card:hover::before {
+            transform: scaleX(1);
+        }
+        .category-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .category-card .card-body {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 5px;
+            text-align: center;
+            border-radius: 20px;
+            margin: 5px;
+        }
+        .category-card h5 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+        }
+        .back-button {
+            background-color: #ffffff;
+            color: #333;
+            border: 2px solid #333;
+            padding: 10px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 10px;
+            transition: all 0.3s;
+        }
+        .back-button:hover {
+            background-color: #333;
+            color: #ffffff;
+        }
+        .menu-category {
+            margin-bottom: 20px;
+        }
+        .menu-item {
+            background-color: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .menu-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        }
+        .menu-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(70deg, #667eea, #764ba2);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+        .menu-item:hover::before {
+            transform: scaleX(1);
+        }
 
-    /* ----------------------
-       Small UX: close menu if swipe down on mobile
-       ---------------------- */
-    let touchStartY = 0;
-    menuSection.addEventListener('touchstart', (e)=> {
-      if(e.touches && e.touches[0]) touchStartY = e.touches[0].clientY;
-    }, {passive:true});
-    menuSection.addEventListener('touchend', (e)=> {
-      const endY = (e.changedTouches && e.changedTouches[0]) ? e.changedTouches[0].clientY : 0;
-      if(endY - touchStartY > 80) toggleMenu(false);
-    });
+        /* Mobile responsiveness */
+        @media (max-width: 200px) {
+            .category-grid {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                gap: 18px;
+            }
+        }
+        @media (max-width: 992px) {
+            .hero-video {
+                height: 65vh;
+            }
+            .logo {
+                top: 68vh;
+            }
+            .logo img {
+                width: 200px;
+                height: 170px;
+            }
+            .menu-button {
+                padding: 18px 80px;
+                font-size: 22px;
+                letter-spacing: 1.5px;
+            }
+            .language-buttons {
+                bottom: 110px;
+                right: 15px;
+            }
+            .language-buttons a {
+                padding: 6px 10px;
+                font-size: 15px;
+            }
+            .menu-language-buttons {
+                bottom: 15px;
+                right: 15px;
+            }
+            .menu-language-buttons a {
+                padding: 6px 10px;
+                font-size: 15px;
+            }
+            .category-grid {
+                grid-template-columns: repeat(auto-fit, minmax(100px,1fr));
+                gap: 16px;
+            }
+            .category-card img {
+                height: 10vh;
+            }
+            .category-card h5 {
+                font-size: 22px;
+            }
+            .menu-item {
+                padding: 18px;
+            }
+            .menu-item h4 {
+                font-size: 20px;
+            }
+        }
+        @media (max-width: 768px) {
+            .hero-video {
+                height: 60vh;
+            }
+            .logo {
+                top: 50vh;
+            }
+            .logo img {
+                width: 150px;
+                height: 130px;
+            }
+            .menu-button {
+                padding: 15px 50px;
+                font-size: 18px;
+                letter-spacing: 1px;
+                width: 90vw;
+                left: 5vw;
+            }
+            .language-buttons {
+                bottom: 100px;
+                right: 10px;
+            }
+            .language-buttons a {
+                padding: 8px 12px;
+                font-size: 14px;
+                min-width: 44px;
+                min-height: 44px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .menu-language-buttons {
+                bottom: 10px;
+                right: 10px;
+            }
+            .menu-language-buttons a {
+                padding: 8px 12px;
+                font-size: 14px;
+                min-width: 44px;
+                min-height: 44px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .category-grid {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 10px;
+            }
+            .category-card {
+                display: flex;
+                flex-direction: column;
+                aspect-ratio: auto;
+            }
+            .category-card img {
+                height: 15vh;
+                flex-shrink: 0;
+            }
+            .category-card .card-body {
+                position: static;
+                background: transparent;
+                padding: 5px;
+                text-align: center;
+                margin: 0;
+            }
+            .category-card h5 {
+                font-size: 14px;
+                color: #333;
+                text-shadow: none;
+            }
+            .menu-item {
+                padding: 15px;
+            }
+            .menu-item h4 {
+                font-size: 18px;
+            }
+        }
+        @media (max-width: 576px) {
+            .hero-video {
+                height: 55vh;
+            }
+            .logo {
+                top: 60vh;
+            }
+            .logo img {
+                width: 200px;
+                height: 130px;
+            }
+            .menu-button {
+                padding: 12px 40px;
+                font-size: 16px;
+                letter-spacing: 0.5px;
+                width: 85vw;
+                left: 7.5vw;
+            }
+            .language-buttons {
+                bottom: 90px;
+                right: 8px;
+            }
+            .language-buttons a {
+                padding: 6px 10px;
+                font-size: 12px;
+                min-width: 40px;
+                min-height: 40px;
+            }
+            .menu-language-buttons {
+                bottom: 8px;
+                right: 8px;
+            }
+            .menu-language-buttons a {
+                padding: 6px 10px;
+                font-size: 12px;
+                min-width: 40px;
+                min-height: 40px;
+            }
+            .category-grid {
+                grid-template-columns: 2fr;
+                gap: 10px;
+            }
+            .category-card img {
+                height: 25vh;
+            }
+            .category-card h5 {
+                font-size: 20px;
+            }
+            .menu-item {
+                padding: 12px;
+            }
+            .menu-item h4 {
+                font-size: 16px;
+            }
+            .container {
+                padding-left: 8px;
+                padding-right: 8px;
+            }
+        }
+        @media (max-width: 480px) {
+            .hero-video {
+                height: 50vh;
+            }
+            .logo {
+                top: 40vh;
+            }
+            .logo img {
+                width: 100px;
+                height: 80px;
+            }
+            .menu-button {
+                padding: 10px 30px;
+                font-size: 14px;
+                letter-spacing: 0px;
+                width: 80vw;
+                left: 10vw;
+            }
+            .language-buttons {
+                bottom: 80px;
+                right: 5px;
+            }
+            .language-buttons a {
+                padding: 5px 8px;
+                font-size: 11px;
+                min-width: 36px;
+                min-height: 36px;
+            }
+            .menu-language-buttons {
+                bottom: 5px;
+                right: 5px;
+            }
+            .menu-language-buttons a {
+                padding: 5px 8px;
+                font-size: 11px;
+                min-width: 36px;
+                min-height: 36px;
+            }
+            .category-card img {
+                height: 20vh;
+            }
+            .category-card h5 {
+                font-size: 16px;
+            }
+            .menu-item {
+                padding: 10px;
+            }
+            .menu-item h4 {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body class="entry-page">
+    <div class="hero-section" id="hero">
+        <video class="hero-video" autoplay muted loop playsinline>
+            <source src="videos/background.mp4" type="video/mp4">
+        </video>
+        <div class="overlay"></div>
+        <div class="logo">
+            <img src="images/logo.png" alt="Noth Coffee">
+        </div>
+        <div class="language-buttons">
+            <a href="#" class="active" data-lang="tr">TR</a>
+            <a href="#" data-lang="en">EN</a>
+            <a href="#" data-lang="ru">RU</a>
+        </div>
+        <a href="#" class="btn menu-button" id="showMenu">Menu</a>
+    </div>
 
-    /* ----------------------
-       Small helper: handle pop state of URL (back button)
-       ---------------------- */
-    window.addEventListener('popstate', (e)=>{
-      if(categoryView.classList.contains('open')) closeCategoryView();
-      else if(menuSection.classList.contains('open')) toggleMenu(false);
-    });
+    <div class="menu-section" id="menu">
+        <div class="menu-language-buttons">
+            <a href="#" class="active" data-lang="tr">TR</a>
+            <a href="#" data-lang="en">EN</a>
+            <a href="#" data-lang="ru">RU</a>
+        </div>
+        <div class="container">
+            <div class="categories-view" id="categoriesView">
+                <img src="images/logo.png" alt="Noth Coffee" class="d-block mx-auto mb-5" style="max-width: 200px; height: auto;">
+                <div class="category-grid" id="categoryGrid"></div>
+            </div>
+            <div class="category-view" id="categoryView">
+                <button class="back-button" id="backButton">← Geri</button>
+                <h2 class="text-center mb-5" id="categoryTitle"></h2>
+                <div id="categoryContent"></div>
+            </div>
+        </div>
+    </div>
 
-    /* ----------------------
-       Optional: expose toggle function to console for dev
-       ---------------------- */
-    window._noth = { toggleMenu, openCategory: openCategory, loadMenu };
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        // Force video to play
+        document.addEventListener('DOMContentLoaded', function() {
+            const video = document.querySelector('.hero-video');
+            video.play().catch(function(error) {
+                console.log('Video autoplay failed:', error);
+            });
+        });
 
-  </script>
+        let currentLang = 'tr';
+        let menuData = null;
+
+        // Language button event listeners for hero section
+        document.querySelectorAll('.language-buttons a').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                currentLang = this.getAttribute('data-lang');
+                document.querySelectorAll('.language-buttons a').forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+                if (document.getElementById('menu').style.display === 'block') {
+                    loadMenu();
+                }
+            });
+        });
+
+        // Language button event listeners for menu section
+        document.querySelectorAll('.menu-language-buttons a').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                currentLang = this.getAttribute('data-lang');
+                document.querySelectorAll('.menu-language-buttons a').forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+                document.querySelectorAll('.language-buttons a').forEach(btn => btn.classList.remove('active'));
+                document.querySelector(`.language-buttons a[data-lang="${currentLang}"]`).classList.add('active');
+                loadMenu();
+            });
+        });
+
+        document.getElementById('showMenu').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('hero').style.display = 'none';
+            document.getElementById('menu').style.display = 'block';
+            loadMenu();
+        });
+
+        document.getElementById('backButton').addEventListener('click', function() {
+            document.getElementById('categoriesView').style.display = 'block';
+            document.getElementById('categoryView').style.display = 'none';
+        });
+
+        function loadMenu() {
+            fetch(`https://nothbackend.onrender.com/api/menu/${currentLang}`)
+                .then(response => response.json())
+                .then(data => {
+                    menuData = data;
+                    showCategories();
+                })
+                .catch(error => console.error('Error loading menu:', error));
+        }
+
+        function showCategories() {
+            const categoryGrid = document.getElementById('categoryGrid');
+            categoryGrid.innerHTML = '';
+            menuData.categories.forEach((category, index) => {
+                const categoryCard = document.createElement('div');
+                categoryCard.className = 'category-card';
+                categoryCard.onclick = () => showCategory(index);
+                categoryCard.innerHTML = `
+                    <img src="${category.image}" alt="${category.name}">
+                    <div class="card-body">
+                        <h5>${category.name}</h5>
+                    </div>
+                `;
+                categoryGrid.appendChild(categoryCard);
+            });
+        }
+
+        function showCategory(index) {
+            const category = menuData.categories[index];
+            document.getElementById('categoriesView').style.display = 'none';
+            document.getElementById('categoryView').style.display = 'block';
+            document.getElementById('categoryTitle').textContent = category.name;
+
+            const categoryContent = document.getElementById('categoryContent');
+            categoryContent.innerHTML = '';
+            category.items.forEach(item => {
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'menu-item';
+                itemDiv.innerHTML = `
+                    <h4>${item.name} <span class="float-right">${item.price}</span></h4>
+                    <p>${item.description}</p>
+                `;
+                categoryContent.appendChild(itemDiv);
+            });
+        }
+    </script>
 </body>
 </html>
