@@ -30,6 +30,7 @@
             height: 70vh;
             object-fit: cover;
             z-index: 20;
+            controls: none;
         }
         .overlay {
             position: absolute;
@@ -186,6 +187,12 @@
 
         /* Mobile responsiveness */
         @media (max-width: 768px) {
+            .hero-video {
+                height: 60vh;
+            }
+            .logo {
+                top: 50vh;
+            }
             .logo img {
                 width: 150px;
                 height: 130px;
