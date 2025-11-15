@@ -1,23 +1,77 @@
 ﻿<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="tr">
-<head runat="server">
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!--Font Awesome-->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
-    <!--Font Awesome-->
-    <!--Main-->
-    <link rel="stylesheet" href="/css/swiper.min.css" />
-    <link rel="stylesheet" href="/css/main.css" />
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noth Coffee</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
     <style>
-        /* Mobile responsiveness for menu.html */
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+        }
+        .entry-page {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+            padding: 20px;
+        }
+        .entry-logo img {
+            width: 200px;
+            height: auto;
+            margin-bottom: 30px;
+        }
+        .language-buttons {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+        .language-buttons div {
+            margin: 0 10px;
+        }
+        .language-buttons a {
+            color: #333;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 10px 20px;
+            border-radius: 5px;
+            background-color: #e9ecef;
+            transition: background-color 0.3s;
+        }
+        .language-buttons a:hover {
+            background-color: #dee2e6;
+        }
+        .language-buttons .active a {
+            background-color: #007bff;
+            color: white;
+        }
+        .entry-button a {
+            display: inline-block;
+            background-color: #000000;
+            color: white;
+            padding: 15px 50px;
+            font-size: 20px;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .entry-button a:hover {
+            background-color: #333;
+        }
+
+        /* Mobile responsiveness */
         @media (max-width: 768px) {
-            .entry-slider {
-                height: 60vh;
-            }
             .entry-logo img {
                 width: 150px;
-                height: auto;
             }
             .language-buttons {
                 flex-direction: column;
@@ -26,119 +80,68 @@
             .language-buttons div {
                 margin: 5px 0;
             }
+            .language-buttons a {
+                padding: 8px 16px;
+                font-size: 14px;
+            }
             .entry-button a {
-                padding: 15px 50px;
+                padding: 12px 40px;
                 font-size: 18px;
             }
         }
         @media (max-width: 576px) {
-            .entry-slider {
-                height: 50vh;
-            }
             .entry-logo img {
                 width: 120px;
             }
             .entry-button a {
-                padding: 12px 40px;
+                padding: 10px 30px;
                 font-size: 16px;
             }
         }
         @media (max-width: 480px) {
-            .entry-slider {
-                height: 40vh;
-            }
             .entry-logo img {
                 width: 100px;
             }
             .entry-button a {
-                padding: 10px 30px;
+                padding: 8px 25px;
                 font-size: 14px;
             }
         }
     </style>
-    <!--Main-->
-    <!--Owl Carousel-->
-    <link rel="stylesheet" href="/css/owl.carousel.min.css" />
-    <link rel="stylesheet" href="/css/owl.theme.default.min.css" />
-    <!--Owl Carousel-->
-    <!--Bootstrap-->
-    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" />
-    <!--Bootstrap-->
-    <link rel="stylesheet" href="/css/aos.css" />
-    <link href="/css/animate.css" rel="stylesheet" />
-    <link rel="apple-touch-icon" sizes="57x57" href="/images/favicon/apple-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="/images/favicon/apple-icon-60x60.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="/images/favicon/apple-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="/images/favicon/apple-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="/images/favicon/apple-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="/images/favicon/apple-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="/images/favicon/apple-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="/images/favicon/apple-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-icon-180x180.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="/images/favicon/android-icon-192x192.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="/images/favicon/favicon-96x96.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png">
-    <link rel="manifest" href="/images/favicon/manifest.json">
-    <meta name="msapplication-TileColor" content="#ffffff">
-    <meta name="msapplication-TileImage" content="/images/favicon/ms-icon-144x144.png">
-    <meta name="theme-color" content="#ffffff">
-    <title>Noth Coffee</title>
-    <script src="/js/jquery-3.3.1.min.js"></script>
 </head>
-    <body class="entry-page">
-    <main>
-        <div class="entry-slider">
-    <div id="DekstopCarousel" class="carousel slide dekstop" data-ride="carousel">
-        <div class="carousel-inner" role="listbox">
-                    <div class="carousel-item active">
-                <img src="/media/images/kapak.jpg" />
-            </div>
-                    <div class="carousel-item ">
-                <img src="/media/images/kapak2.jpg" />
-            </div>
-                    <div class="carousel-item ">
-                <img src="/media/images/kapak3.png" />
-            </div>
-                </div>
-    </div>
-</div>
-<div class="entry-section-content">
+<body class="entry-page">
     <div class="entry-logo">
-        <a href="/index.php/tr/">
-            <img src="/images/general/entry-logo.png" alt="">
-        </a>
+        <img src="images/entry-logo.png" alt="Noth Coffee">
     </div>
-    <div class="w-100">
-        <div class="language-buttons pl-0 pr-0">
-                    <div class="active">
-                <a href="/index.php/tr/">TR</a>
-            </div>
-                    <div>
-                <a href="/index.php/en/">EN</a>
-            </div>
-                    <div>
-                <a href="/index.php/ru/">RU</a>
-            </div>
-                </div>
-        <div class="entry-button">
-            <a href="/index.php/tr/menu">Menu</a>
+    <div class="language-buttons">
+        <div class="active">
+            <a href="#" data-lang="tr">TR</a>
+        </div>
+        <div>
+            <a href="#" data-lang="en">EN</a>
+        </div>
+        <div>
+            <a href="#" data-lang="ru">RU</a>
         </div>
     </div>
-</div>    </main>
-    <script src="/js/aos.js"></script>
-    <!-- Bootstrap -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.0.4/popper.js"></script>
-    <script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="/bootstrap/js/bootstrap.js"></script>
-    <script src='//cdnjs.cloudflare.com/ajax/libs/jquery.touchswipe/1.6.4/jquery.touchSwipe.min.js'></script>
-    <!-- Bootstrap -->
-    <!-- Main-->
-    <script src="/js/owl.carousel.min.js"></script>
-    <script src="/js/swiper.min.js"></script>
-    <script src="/js/jquery.fancybox.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="/css/jquery.fancybox.min.css" media="screen" />
-    <script src="/js/main.js"></script>
-    <!-- Main-->
+    <div class="entry-button">
+        <a href="index.html">Menu</a>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        // Language button event listeners
+        document.querySelectorAll('.language-buttons a').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                const lang = this.getAttribute('data-lang');
+                document.querySelectorAll('.language-buttons div').forEach(div => div.classList.remove('active'));
+                this.parentElement.classList.add('active');
+                // Here you can add logic to change language if needed
+            });
+        });
+    </script>
 </body>
 </html>
