@@ -185,6 +185,61 @@
         }
 
         /* Mobile responsiveness */
+        @media (max-width: 1200px) {
+            .category-grid {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                gap: 18px;
+            }
+        }
+        @media (max-width: 992px) {
+            .hero-video {
+                height: 65vh;
+            }
+            .logo {
+                top: 55vh;
+            }
+            .logo img {
+                width: 200px;
+                height: 170px;
+            }
+            .menu-button {
+                padding: 18px 80px;
+                font-size: 22px;
+                letter-spacing: 1.5px;
+            }
+            .language-buttons {
+                bottom: 110px;
+                right: 15px;
+            }
+            .language-buttons a {
+                padding: 6px 10px;
+                font-size: 15px;
+            }
+            .menu-language-buttons {
+                bottom: 15px;
+                right: 15px;
+            }
+            .menu-language-buttons a {
+                padding: 6px 10px;
+                font-size: 15px;
+            }
+            .category-grid {
+                grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+                gap: 16px;
+            }
+            .category-card img {
+                height: 180px;
+            }
+            .category-card h5 {
+                font-size: 22px;
+            }
+            .menu-item {
+                padding: 18px;
+            }
+            .menu-item h4 {
+                font-size: 20px;
+            }
+        }
         @media (max-width: 768px) {
             .hero-video {
                 height: 60vh;
@@ -200,22 +255,34 @@
                 padding: 15px 50px;
                 font-size: 18px;
                 letter-spacing: 1px;
+                width: 90vw;
+                left: 5vw;
             }
             .language-buttons {
                 bottom: 100px;
                 right: 10px;
             }
             .language-buttons a {
-                padding: 5px 8px;
+                padding: 8px 12px;
                 font-size: 14px;
+                min-width: 44px;
+                min-height: 44px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
             }
             .menu-language-buttons {
                 bottom: 10px;
                 right: 10px;
             }
             .menu-language-buttons a {
-                padding: 5px 8px;
+                padding: 8px 12px;
                 font-size: 14px;
+                min-width: 44px;
+                min-height: 44px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
             }
             .category-grid {
                 grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -232,6 +299,116 @@
             }
             .menu-item h4 {
                 font-size: 18px;
+            }
+        }
+        @media (max-width: 576px) {
+            .hero-video {
+                height: 55vh;
+            }
+            .logo {
+                top: 45vh;
+            }
+            .logo img {
+                width: 120px;
+                height: 100px;
+            }
+            .menu-button {
+                padding: 12px 40px;
+                font-size: 16px;
+                letter-spacing: 0.5px;
+                width: 85vw;
+                left: 7.5vw;
+            }
+            .language-buttons {
+                bottom: 90px;
+                right: 8px;
+            }
+            .language-buttons a {
+                padding: 6px 10px;
+                font-size: 12px;
+                min-width: 40px;
+                min-height: 40px;
+            }
+            .menu-language-buttons {
+                bottom: 8px;
+                right: 8px;
+            }
+            .menu-language-buttons a {
+                padding: 6px 10px;
+                font-size: 12px;
+                min-width: 40px;
+                min-height: 40px;
+            }
+            .category-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            .category-card img {
+                height: 120px;
+            }
+            .category-card h5 {
+                font-size: 18px;
+            }
+            .menu-item {
+                padding: 12px;
+            }
+            .menu-item h4 {
+                font-size: 16px;
+            }
+            .container {
+                padding-left: 15px;
+                padding-right: 15px;
+            }
+        }
+        @media (max-width: 480px) {
+            .hero-video {
+                height: 50vh;
+            }
+            .logo {
+                top: 40vh;
+            }
+            .logo img {
+                width: 100px;
+                height: 80px;
+            }
+            .menu-button {
+                padding: 10px 30px;
+                font-size: 14px;
+                letter-spacing: 0px;
+                width: 80vw;
+                left: 10vw;
+            }
+            .language-buttons {
+                bottom: 80px;
+                right: 5px;
+            }
+            .language-buttons a {
+                padding: 5px 8px;
+                font-size: 11px;
+                min-width: 36px;
+                min-height: 36px;
+            }
+            .menu-language-buttons {
+                bottom: 5px;
+                right: 5px;
+            }
+            .menu-language-buttons a {
+                padding: 5px 8px;
+                font-size: 11px;
+                min-width: 36px;
+                min-height: 36px;
+            }
+            .category-card img {
+                height: 100px;
+            }
+            .category-card h5 {
+                font-size: 16px;
+            }
+            .menu-item {
+                padding: 10px;
+            }
+            .menu-item h4 {
+                font-size: 14px;
             }
         }
     </style>
