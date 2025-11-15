@@ -542,7 +542,7 @@
         });
 
         function loadMenu() {
-            fetch(`http://localhost:3000/api/menu/${currentLang}`)
+            fetch(`https://nothbackend.onrender.com/api/menu/${currentLang}`)
                 .then(response => response.json())
                 .then(data => {
                     menuData = data;
