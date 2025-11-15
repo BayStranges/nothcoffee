@@ -346,11 +346,26 @@
                 grid-template-columns: 1fr;
                 gap: 15px;
             }
+            .category-card {
+                display: flex;
+                flex-direction: column;
+                aspect-ratio: auto;
+            }
             .category-card img {
                 height: 30vh;
+                flex-shrink: 0;
+            }
+            .category-card .card-body {
+                position: static;
+                background: transparent;
+                padding: 10px;
+                text-align: center;
+                margin: 0;
             }
             .category-card h5 {
                 font-size: 20px;
+                color: #333;
+                text-shadow: none;
             }
             .menu-item {
                 padding: 15px;
