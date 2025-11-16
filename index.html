@@ -69,9 +69,9 @@
             width: 230px;
             height: 200px;
         }
-        .top-right-buttons {
+        .bottom-right-buttons {
             position: absolute;
-            top: 20px;
+            bottom: 120px;
             right: 20px;
             z-index: 10;
             display: flex;
@@ -113,7 +113,7 @@
         }
         .wifi-panel {
             position: absolute;
-            top: 50px;
+            bottom: 50px;
             right: 0;
             background-color: white;
             border: 1px solid #ccc;
@@ -126,6 +126,34 @@
         .wifi-panel p {
             margin: 0;
             font-weight: bold;
+        }
+        .menu-top-buttons {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .menu-language-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        .menu-language-buttons a {
+            color: #333;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            cursor: pointer;
+        }
+        .menu-language-buttons a:hover {
+            background-color: rgba(0,0,0,0.1);
+        }
+        .menu-language-buttons a.active {
+            background-color: rgba(0,0,0,0.2);
         }
         .menu-button {
             z-index: 10;
@@ -160,7 +188,7 @@
         }
         .menu-language-buttons {
             position: absolute;
-            bottom: 20px;
+            top: 20px;
             right: 20px;
             z-index: 10;
         }
@@ -572,7 +600,7 @@
         <div class="logo">
             <img src="images/logo.png" alt="Noth Coffee">
         </div>
-        <div class="top-right-buttons">
+        <div class="bottom-right-buttons">
             <div class="language-buttons">
                 <a href="#" class="active" data-lang="tr">TR</a>
                 <a href="#" data-lang="en">EN</a>
