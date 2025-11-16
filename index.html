@@ -69,15 +69,21 @@
             width: 230px;
             height: 200px;
         }
-        .language-buttons {
+        .top-right-buttons {
             position: absolute;
-            bottom: 120px;
+            top: 20px;
             right: 20px;
             z-index: 10;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .language-buttons {
+            display: flex;
+            gap: 10px;
         }
         .language-buttons a {
             color: rgb(255, 255, 255);
-            margin: 0 10px;
             text-decoration: none;
             font-weight: bold;
             padding: 5px 10px;
@@ -91,6 +97,35 @@
         }
         .language-buttons a.active {
             background-color: rgb(0, 0, 0);
+        }
+        .wifi-button {
+            background-color: rgb(0, 0, 0);
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        .wifi-button:hover {
+            background-color: #5c6164;
+        }
+        .wifi-panel {
+            position: absolute;
+            top: 50px;
+            right: 0;
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: none;
+            z-index: 100;
+        }
+        .wifi-panel p {
+            margin: 0;
+            font-weight: bold;
         }
         .menu-button {
             z-index: 10;
@@ -537,10 +572,16 @@
         <div class="logo">
             <img src="images/logo.png" alt="Noth Coffee">
         </div>
-        <div class="language-buttons">
-            <a href="#" class="active" data-lang="tr">TR</a>
-            <a href="#" data-lang="en">EN</a>
-            <a href="#" data-lang="ru">RU</a>
+        <div class="top-right-buttons">
+            <div class="language-buttons">
+                <a href="#" class="active" data-lang="tr">TR</a>
+                <a href="#" data-lang="en">EN</a>
+                <a href="#" data-lang="ru">RU</a>
+            </div>
+            <button class="wifi-button" id="wifiButton">WiFi</button>
+            <div class="wifi-panel" id="wifiPanel">
+                <p>WiFi Şifresi: 2025NOTH</p>
+            </div>
         </div>
         <a href="#" class="btn menu-button" id="showMenu">Menu</a>
     </div>
@@ -615,6 +656,21 @@
         document.getElementById('backButton').addEventListener('click', function() {
             document.getElementById('categoriesView').style.display = 'block';
             document.getElementById('categoryView').style.display = 'none';
+        });
+
+        // WiFi button functionality
+        document.getElementById('wifiButton').addEventListener('click', function() {
+            const panel = document.getElementById('wifiPanel');
+            panel.style.display = panel.style.display === 'none' || panel.style.display === '' ? 'block' : 'none';
+        });
+
+        // Close wifi panel when clicking outside
+        document.addEventListener('click', function(event) {
+            const panel = document.getElementById('wifiPanel');
+            const button = document.getElementById('wifiButton');
+            if (!panel.contains(event.target) && !button.contains(event.target)) {
+                panel.style.display = 'none';
+            }
         });
 
         function loadMenu() {
