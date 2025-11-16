@@ -615,11 +615,6 @@
     </div>
 
     <div class="menu-section" id="menu">
-        <div class="menu-language-buttons">
-            <a href="#" class="active" data-lang="tr">TR</a>
-            <a href="#" data-lang="en">EN</a>
-            <a href="#" data-lang="ru">RU</a>
-        </div>
         <div class="container">
             <div class="categories-view" id="categoriesView">
                 <img src="images/logo.png" alt="Noth Coffee" class="d-block mx-auto mb-5" style="max-width: 200px; height: auto;">
@@ -661,18 +656,7 @@
             });
         });
 
-        // Language button event listeners for menu section
-        document.querySelectorAll('.menu-language-buttons a').forEach(button => {
-            button.addEventListener('click', function(e) {
-                e.preventDefault();
-                currentLang = this.getAttribute('data-lang');
-                document.querySelectorAll('.menu-language-buttons a').forEach(btn => btn.classList.remove('active'));
-                this.classList.add('active');
-                document.querySelectorAll('.language-buttons a').forEach(btn => btn.classList.remove('active'));
-                document.querySelector(`.language-buttons a[data-lang="${currentLang}"]`).classList.add('active');
-                loadMenu();
-            });
-        });
+
 
         document.getElementById('showMenu').addEventListener('click', function(e) {
             e.preventDefault();
