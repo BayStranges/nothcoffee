@@ -641,8 +641,8 @@
                 const itemDiv = document.createElement('div');
                 itemDiv.className = 'menu-item';
                 itemDiv.innerHTML = `
-                    <h3>${item.name} <span class="float-right">${item.price}</span></h3>
-                    <p>${item.description}</p>
+                    <h3>${item.name}</h3>
+                    <p>${item.description} <span class="float-right">${item.price}</span></p>
                 `;
                 categoryContent.appendChild(itemDiv);
             });
