@@ -246,6 +246,15 @@
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
+            display: flex;
+            align-items: center;
+        }
+        .menu-item img {
+            width: 80px;
+            height: 80px;
+            margin-right: 20px;
+            object-fit: cover;
+            border-radius: 10px;
         }
         .menu-item h3 {
             font-weight: bold;
@@ -647,6 +656,7 @@
                 const itemDiv = document.createElement('div');
                 itemDiv.className = 'menu-item';
                 itemDiv.innerHTML = `
+                    <img src="${item.image}" alt="${item.name}">
                     <h3>${item.name}</h3>
                     <p>${item.description}</p>
                     <span class="price">${item.price}</span>
