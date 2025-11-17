@@ -1,736 +1,1030 @@
 <!DOCTYPE html>
 <html lang="tr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Noth Coffee Menu</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
     <style>
-        body, html {
-            height: 100%;
-            margin: 0;
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      body,
+      html {
+        height: 100%;
+        margin: 0;
+        font-family: "Poppins", sans-serif;
+        background: linear-gradient(135deg, #ffffff 0%, #ffffff 100%);
+      }
+      body.dark-mode {
+        background: linear-gradient(135deg, #2c3e50 0%, #ffffff 100%);
+        color: #ecf0f1;
+      }
+      .hero-section {
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        align-items: center;
+        position: relative;
+        overflow: hidden;
+        padding-bottom: 20px;
+      }
+      .hero-video {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 80vh;
+        object-fit: cover;
+        z-index: 20;
+        pointer-events: none;
+      }
+      .hero-video::-webkit-media-controls {
+        display: none !important;
+      }
+      .hero-video::-webkit-media-controls-panel {
+        display: none !important;
+      }
+      .hero-video::-webkit-media-controls-play-button {
+        display: none !important;
+      }
+      .hero-video::-moz-media-controls {
+        display: none !important;
+      }
+      .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(255, 255, 255, 0.856);
+        z-index: 10;
+      }
+      .logo {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 100;
+        display: flex;
+        justify-content: center;
+        top: 63vh; /* moved 7vh up so logo sits slightly higher under the video */
+        pointer-events: none;
+      }
+      .logo img {
+        max-width: 352px; /* increased ~10% */
+        width: auto;
+        height: auto;
+        max-height: 308px; /* increased ~10% */
+        object-fit: contain;
+        pointer-events: auto;
+        display: block;
+      }
+      .second-logo {
+        position: absolute;
+        left: 28%;
+        transform: translateX(-50%);
+        z-index: 100;
+        display: flex;
+        justify-content: center;
+        top: 46vh;
+        pointer-events: none;
+      }
+      .second-logo img {
+        max-width: 352px;
+        width: auto;
+        height: auto;
+        max-height: 308px;
+        object-fit: contain;
+        pointer-events: auto;
+        display: block;
+      }
+      .third-logo {
+        position: absolute;
+        left: 75%;
+        transform: translateX(-50%);
+        z-index: 100;
+        display: flex;
+        justify-content: center;
+        top: 46vh;
+        pointer-events: none;
+      }
+      .third-logo img {
+        max-width: 352px;
+        width: auto;
+        height: auto;
+        max-height: 308px;
+        object-fit: contain;
+        pointer-events: auto;
+        display: block;
+        transform: scaleX(-1);
+      }
+      /* Instagram button placed centered between logo and bottom-right controls */
+      .instagram-button {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        top: 67vh; /* sits between the logo (63vh) and bottom controls */
+        z-index: 110;
+        background: linear-gradient(
+          135deg,
+          #f09433 0%,
+          #e6683c 25%,
+          #dc2743 50%,
+          #cc2366 75%,
+          #bc1888 100%
+        );
+        color: #fff;
+        padding: 15px 22px;
+        border-radius: 999px; /* oval */
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        font-weight: 600;
+        letter-spacing: 1px;
+        transition: transform 0.15s ease, box-shadow 0.15s ease,
+          opacity 0.15s ease;
+      }
+      .instagram-button:hover {
+        transform: translateX(-50%) scale(1.03);
+        box-shadow: 0 14px 30px rgba(0, 0, 0, 0.2);
+      }
+      .instagram-button .fa-instagram {
+        margin-right: 10px;
+        font-size: 35px;
+      }
+      .wifi-button {
+        position: absolute;
+        left: 25%;
+        transform: translateX(-50%);
+        top: 84vh; /* below the Instagram button */
+        z-index: 110;
+        background: linear-gradient(135deg, #0c0d0e 0%, #0c0d0e 100%);
+        color: #fff;
+        padding: 15px 22px;
+        border-radius: 999px; /* oval */
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        font-weight: 600;
+        letter-spacing: 1px;
+        transition: transform 0.15s ease, box-shadow 0.15s ease,
+          opacity 0.15s ease;
+        cursor: pointer;
+        border: none;
+      }
+      .wifi-button:hover {
+        transform: translateX(-50%) scale(1.03);
+        box-shadow: 0 14px 30px rgba(0, 0, 0, 0.2);
+      }
+      .wifi-button .fa-wifi {
+        margin-right: 10px;
+        font-size: 25px;
+      }
+      /* Remove any visible square/background around logo images */
+      .logo,
+      .logo img,
+      .categories-view img {
+        background: transparent !important;
+        border: none !important;
+        border-radius: 0 !important;
+        padding: 0 !important;
+      }
+
+
+      .menu-button {
+        z-index: 10;
+        background-color: #000000;
+        color: white;
+        border: none;
+        padding: 20px 100px;
+        font-size: 24px;
+        border-radius: 8px;
+        text-decoration: none;
+        transition: background-color 0.3s;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        width: 100vw;
+        position: absolute;
+        bottom: 20px;
+        left: 0;
+      }
+      .menu-button:hover {
+        background-color: #5c6164;
+      }
+      .menu-section {
+        display: none;
+        padding: 50px 0;
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        position: relative;
+        min-height: 100vh;
+      }
+      body.dark-mode .menu-section {
+        background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
+      }
+      .menu-language-buttons {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        z-index: 10;
+      }
+      .menu-language-buttons a {
+        color: #333;
+        margin: 0 10px;
+        text-decoration: none;
+        font-weight: bold;
+        padding: 5px 10px;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+        cursor: pointer;
+      }
+      .menu-language-buttons a:hover {
+        background-color: rgba(0, 0, 0, 0.1);
+      }
+      .menu-language-buttons a.active {
+        background-color: rgba(0, 0, 0, 0.2);
+      }
+      .language-buttons {
+        position: absolute;
+        bottom: 110px;
+        right: 10px;
+        display: flex;
+        gap: 10px;
+      }
+      .language-buttons a {
+        background: linear-gradient(135deg, #0c0d0e 0%, #0c0d0e 100%);
+        color: #fff;
+        padding: 15px 22px;
+        border-radius: 999px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        font-weight: 600;
+        letter-spacing: 1px;
+        transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+        cursor: pointer;
+        border: none;
+      }
+      .language-buttons a:hover {
+        transform: scale(1.03);
+        box-shadow: 0 14px 30px rgba(0, 0, 0, 0.2);
+      }
+      .language-buttons a.active {
+        opacity: 1;
+      }
+      .categories-view {
+        display: block;
+      }
+      .category-view {
+        display: none;
+      }
+      .category-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 25px;
+        margin-bottom: 40px;
+      }
+      .category-card {
+        background: linear-gradient(145deg, #ffffff, #f0f0f0);
+        border-radius: 25px;
+        overflow: hidden;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1),
+          0 5px 15px rgba(0, 0, 0, 0.05);
+        cursor: pointer;
+        transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        position: relative;
+        aspect-ratio: 1;
+        border: 3px solid transparent;
+        background-clip: padding-box;
+      }
+      .category-card:hover {
+        transform: translateY(-20px) scale(1.08);
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2),
+          0 10px 25px rgba(0, 0, 0, 0.15);
+        border-color: #667eea;
+      }
+      .category-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(
+          135deg,
+          rgba(102, 126, 234, 0.15),
+          rgba(118, 75, 162, 0.15)
+        );
+        opacity: 0;
+        transition: opacity 0.4s ease;
+        z-index: 1;
+        border-radius: 22px;
+      }
+      .category-card:hover::before {
+        opacity: 1;
+      }
+      .category-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.6s ease;
+        border-radius: 22px;
+      }
+      .category-card:hover img {
+        transform: scale(1.15);
+      }
+      .category-card .card-body {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(
+          to top,
+          rgba(0, 0, 0, 0.9),
+          rgba(0, 0, 0, 0.6)
+        );
+        padding: 20px 15px;
+        text-align: center;
+        border-radius: 0 0 22px 22px;
+        z-index: 2;
+      }
+      .category-card h5 {
+        margin: 0;
+        font-size: 22px;
+        font-weight: 800;
+        color: white;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.9);
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+      }
+      .back-button {
+        background-color: #ffffff;
+        color: #333;
+        border: 2px solid #333;
+        padding: 10px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-bottom: 10px;
+        transition: all 0.3s;
+      }
+      .back-button:hover {
+        background-color: #333;
+        color: #ffffff;
+      }
+      .menu-category {
+        margin-bottom: 20px;
+      }
+      .menu-item {
+        background-color: white;
+        padding: 20px;
+        margin-bottom: 20px;
+        border-radius: 15px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+      }
+      .menu-item img {
+        width: 80px;
+        height: 80px;
+        margin-right: 20px;
+        object-fit: cover;
+        border-radius: 10px;
+      }
+      .menu-item h3 {
+        font-weight: bold;
+      }
+      .menu-item .price {
+        float: right;
+        font-weight: bold;
+        font-size: 1.5em;
+        margin-top: -20px;
+      }
+      .menu-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+      }
+      .menu-item::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(70deg, #667eea, #764ba2);
+        transform: scaleX(0);
+        transition: transform 0.3s ease;
+      }
+      .menu-item:hover::before {
+        transform: scaleX(1);
+      }
+
+      /* Mobile responsiveness */
+      @media (max-width: 200px) {
+        .category-grid {
+          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+          gap: 18px;
         }
-        body.dark-mode {
-            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
-            color: #ecf0f1;
-        }
-        .hero-section {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            align-items: center;
-            position: relative;
-            overflow: hidden;
-            padding-bottom: 20px;
-        }
+      }
+      @media (max-width: 992px) {
         .hero-video {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 70vh;
-            object-fit: cover;
-            z-index: 20;
-            pointer-events: none;
-        }
-        .hero-video::-webkit-media-controls {
-            display: none !important;
-        }
-        .hero-video::-webkit-media-controls-panel {
-            display: none !important;
-        }
-        .hero-video::-webkit-media-controls-play-button {
-            display: none !important;
-        }
-        .hero-video::-moz-media-controls {
-            display: none !important;
-        }
-        .overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(255, 255, 255, 0.856);
-            z-index: 10;
+          height: 65vh;
         }
         .logo {
-            position: absolute;
-            top: 60vh;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 100;
+          top: 58vh;
         }
         .logo img {
-            width: 230px;
-            height: 200px;
-        }
-        .bottom-right-buttons {
-            position: absolute;
-            bottom: 120px;
-            right: 20px;
-            z-index: 10;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .language-buttons {
-            display: flex;
-            gap: 10px;
-        }
-        .language-buttons a {
-            color: rgb(255, 255, 255);
-            text-decoration: none;
-            font-weight: bold;
-            padding: 5px 10px;
-            border-radius: 5px;
-            background-color: rgb(0, 0, 0);
-            transition: background-color 0.3s;
-            cursor: pointer;
-        }
-        .language-buttons a:hover {
-            background-color: rgb(0, 0, 0);
-        }
-        .language-buttons a.active {
-            background-color: rgb(0, 0, 0);
-        }
-        .wifi-button {
-            background-color: rgb(0, 0, 0);
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: background-color 0.3s;
-        }
-        .wifi-button:hover {
-            background-color: #5c6164;
-        }
-        .wifi-panel {
-            position: absolute;
-            bottom: 50px;
-            right: 0;
-            background-color: white;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            padding: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            display: none;
-            z-index: 100;
-        }
-        .wifi-panel p {
-            margin: 0;
-            font-weight: bold;
-        }
-        .menu-top-buttons {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            z-index: 10;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .menu-language-buttons {
-            display: flex;
-            gap: 10px;
-        }
-        .menu-language-buttons a {
-            color: #333;
-            text-decoration: none;
-            font-weight: bold;
-            padding: 5px 10px;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-            cursor: pointer;
-        }
-        .menu-language-buttons a:hover {
-            background-color: rgba(0,0,0,0.1);
-        }
-        .menu-language-buttons a.active {
-            background-color: rgba(0,0,0,0.2);
+          max-width: 308px; /* ~10% larger */
+          width: auto;
+          height: auto;
+          max-height: 242px; /* ~10% larger */
+          object-fit: contain;
+          display: block;
         }
         .menu-button {
-            z-index: 10;
-            background-color: #000000;
-            color: white;
-            border: none;
-            padding: 20px 100px;
-            font-size: 24px;
-            border-radius: 8px;
-            text-decoration: none;
-            transition: background-color 0.3s;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            width: 100vw;
-            position: absolute;
-            bottom: 20px;
-            left: 0;
+          padding: 18px 80px;
+          font-size: 22px;
+          letter-spacing: 1.5px;
         }
-        .menu-button:hover {
-            background-color: #5c6164;
+        .language-buttons {
+          bottom: 110px;
+          right: 10px;
         }
-        .menu-section {
-            display: none;
-            padding: 50px 0;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            position: relative;
-            min-height: 100vh;
-        }
-        body.dark-mode .menu-section {
-            background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
+        .language-buttons a {
+          padding: 12px 16px;
+          font-size: 20px;
         }
         .menu-language-buttons {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            z-index: 10;
+          bottom: 15px;
+          right: 5px;
         }
         .menu-language-buttons a {
-            color: #333;
-            margin: 0 10px;
-            text-decoration: none;
-            font-weight: bold;
-            padding: 5px 10px;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-            cursor: pointer;
-        }
-        .menu-language-buttons a:hover {
-            background-color: rgba(0,0,0,0.1);
-        }
-        .menu-language-buttons a.active {
-            background-color: rgba(0,0,0,0.2);
-        }
-        .categories-view {
-            display: block;
-        }
-        .category-view {
-            display: none;
+          padding: 6px 10px;
+          font-size: 15px;
         }
         .category-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 25px;
-            margin-bottom: 40px;
-        }
-        .category-card {
-            background: linear-gradient(145deg, #ffffff, #f0f0f0);
-            border-radius: 25px;
-            overflow: hidden;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1), 0 5px 15px rgba(0,0,0,0.05);
-            cursor: pointer;
-            transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            position: relative;
-            aspect-ratio: 1;
-            border: 3px solid transparent;
-            background-clip: padding-box;
-        }
-        .category-card:hover {
-            transform: translateY(-20px) scale(1.08);
-            box-shadow: 0 25px 50px rgba(0,0,0,0.2), 0 10px 25px rgba(0,0,0,0.15);
-            border-color: #667eea;
-        }
-        .category-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.15), rgba(118, 75, 162, 0.15));
-            opacity: 0;
-            transition: opacity 0.4s ease;
-            z-index: 1;
-            border-radius: 22px;
-        }
-        .category-card:hover::before {
-            opacity: 1;
+          grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+          gap: 16px;
         }
         .category-card img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.6s ease;
-            border-radius: 22px;
-        }
-        .category-card:hover img {
-            transform: scale(1.15);
-        }
-        .category-card .card-body {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(to top, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.6));
-            padding: 20px 15px;
-            text-align: center;
-            border-radius: 0 0 22px 22px;
-            z-index: 2;
+          height: 10vh;
         }
         .category-card h5 {
-            margin: 0;
-            font-size: 22px;
-            font-weight: 800;
-            color: white;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.9);
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-        }
-        .back-button {
-            background-color: #ffffff;
-            color: #333;
-            border: 2px solid #333;
-            padding: 10px 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-bottom: 10px;
-            transition: all 0.3s;
-        }
-        .back-button:hover {
-            background-color: #333;
-            color: #ffffff;
-        }
-        .menu-category {
-            margin-bottom: 20px;
+          font-size: 22px;
         }
         .menu-item {
-            background-color: white;
-            padding: 20px;
-            margin-bottom: 20px;
-            border-radius: 15px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
+          padding: 18px;
         }
-        .menu-item img {
-            width: 80px;
-            height: 80px;
-            margin-right: 20px;
-            object-fit: cover;
-            border-radius: 10px;
+        .menu-item h4 {
+          font-size: 20px;
         }
-        .menu-item h3 {
-            font-weight: bold;
+      }
+      @media (max-width: 768px) {
+        .hero-video {
+          height: 60vh;
         }
-        .menu-item .price {
-            float: right;
-            font-weight: bold;
-            font-size: 1.5em;
-            margin-top: -20px;
+        .logo {
+          top: 53vh;
         }
-        .menu-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        .logo img {
+          max-width: 242px; /* ~10% larger */
+          width: auto;
+          height: auto;
+          max-height: 198px; /* ~10% larger */
+          object-fit: contain;
+          display: block;
         }
-        .menu-item::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(70deg, #667eea, #764ba2);
-            transform: scaleX(0);
-            transition: transform 0.3s ease;
+        .menu-button {
+          padding: 15px 50px;
+          font-size: 18px;
+          letter-spacing: 1px;
+          width: 90vw;
+          left: 5vw;
         }
-        .menu-item:hover::before {
-            transform: scaleX(1);
+        .language-buttons {
+          bottom: 100px;
+          right: 5px;
         }
+        .language-buttons a {
+          padding: 8px 12px;
+          font-size: 14px;
+          min-width: 44px;
+          min-height: 44px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .menu-language-buttons {
+          bottom: 10px;
+          right: 5px;
+        }
+        .menu-language-buttons a {
+          padding: 8px 12px;
+          font-size: 14px;
+          min-width: 44px;
+          min-height: 44px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .category-grid {
+          grid-template-columns: repeat(4, 1fr);
+          gap: 10px;
+        }
+        .category-card {
+          display: flex;
+          flex-direction: column;
+          aspect-ratio: auto;
+        }
+        .category-card img {
+          height: 15vh;
+          flex-shrink: 0;
+        }
+        .category-card .card-body {
+          position: static;
+          background: transparent;
+          padding: 5px;
+          text-align: center;
+          margin: 0;
+        }
+        .category-card h5 {
+          font-size: 14px;
+          color: #333;
+          text-shadow: none;
+        }
+        .menu-item {
+          padding: 15px;
+        }
+        .menu-item h4 {
+          font-size: 18px;
+        }
+      }
+      @media (max-width: 576px) {
+        .hero-video {
+          height: 55vh;
+        }
+        .logo {
+          top: 48vh;
+        }
+        .logo img {
+          max-width: 286px; /* ~10% larger */
+          width: auto;
+          height: auto;
+          max-height: 198px; /* ~10% larger */
+          object-fit: contain;
+          display: block;
+        }
+        .menu-button {
+          padding: 12px 40px;
+          font-size: 16px;
+          letter-spacing: 0.5px;
+          width: 85vw;
+          left: 7.5vw;
+        }
+        .language-buttons {
+          bottom: 90px;
+          right: 8px;
+        }
+        .language-buttons a {
+          padding: 6px 10px;
+          font-size: 12px;
+          min-width: 40px;
+          min-height: 40px;
+        }
+        .menu-language-buttons {
+          bottom: 8px;
+          right: 8px;
+        }
+        .menu-language-buttons a {
+          padding: 6px 10px;
+          font-size: 12px;
+          min-width: 40px;
+          min-height: 40px;
+        }
+        .category-grid {
+          grid-template-columns: 2fr;
+          gap: 10px;
+        }
+        .category-card img {
+          height: 25vh;
+        }
+        .category-card h5 {
+          font-size: 20px;
+        }
+        .menu-item {
+          padding: 12px;
+        }
+        .menu-item h4 {
+          font-size: 16px;
+        }
+        .container {
+          padding-left: 8px;
+          padding-right: 8px;
+        }
+      }
+      @media (max-width: 480px) {
+        .hero-video {
+          height: 50vh;
+        }
+        .logo {
+          top: 43vh;
+        }
+        .logo img {
+          max-width: 154px; /* ~10% larger */
+          width: auto;
+          height: auto;
+          max-height: 121px; /* ~10% larger */
+          object-fit: contain;
+          display: block;
+        }
+        .menu-button {
+          padding: 10px 30px;
+          font-size: 14px;
+          letter-spacing: 0px;
+          width: 80vw;
+          left: 10vw;
+        }
+        .language-buttons {
+          bottom: 80px;
+          right: 5px;
+        }
+        .language-buttons a {
+          padding: 5px 8px;
+          font-size: 11px;
+          min-width: 36px;
+          min-height: 36px;
+        }
+        .menu-language-buttons {
+          bottom: 5px;
+          right: 5px;
+        }
+        .menu-language-buttons a {
+          padding: 5px 8px;
+          font-size: 11px;
+          min-width: 36px;
+          min-height: 36px;
+        }
+        .category-card img {
+          height: 20vh;
+        }
+        .category-card h5 {
+          font-size: 16px;
+        }
+        .menu-item {
+          padding: 10px;
+        }
+        .menu-item h4 {
+          font-size: 14px;
+        }
+      }
 
-        /* Mobile responsiveness */
-        @media (max-width: 200px) {
-            .category-grid {
-                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-                gap: 18px;
-            }
-        }
-        @media (max-width: 992px) {
-            .hero-video {
-                height: 65vh;
-            }
-            .logo {
-                top: 68vh;
-            }
-            .logo img {
-                width: 200px;
-                height: 170px;
-            }
-            .menu-button {
-                padding: 18px 80px;
-                font-size: 22px;
-                letter-spacing: 1.5px;
-            }
-            .language-buttons {
-                bottom: 110px;
-                right: 15px;
-            }
-            .language-buttons a {
-                padding: 6px 10px;
-                font-size: 15px;
-            }
-            .menu-language-buttons {
-                bottom: 15px;
-                right: 15px;
-            }
-            .menu-language-buttons a {
-                padding: 6px 10px;
-                font-size: 15px;
-            }
-            .category-grid {
-                grid-template-columns: repeat(auto-fit, minmax(100px,1fr));
-                gap: 16px;
-            }
-            .category-card img {
-                height: 10vh;
-            }
-            .category-card h5 {
-                font-size: 22px;
-            }
-            .menu-item {
-                padding: 18px;
-            }
-            .menu-item h4 {
-                font-size: 20px;
-            }
-        }
-        @media (max-width: 768px) {
-            .hero-video {
-                height: 60vh;
-            }
-            .logo {
-                top: 50vh;
-            }
-            .logo img {
-                width: 150px;
-                height: 130px;
-            }
-            .menu-button {
-                padding: 15px 50px;
-                font-size: 18px;
-                letter-spacing: 1px;
-                width: 90vw;
-                left: 5vw;
-            }
-            .language-buttons {
-                bottom: 100px;
-                right: 10px;
-            }
-            .language-buttons a {
-                padding: 8px 12px;
-                font-size: 14px;
-                min-width: 44px;
-                min-height: 44px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-            .menu-language-buttons {
-                bottom: 10px;
-                right: 10px;
-            }
-            .menu-language-buttons a {
-                padding: 8px 12px;
-                font-size: 14px;
-                min-width: 44px;
-                min-height: 44px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-            .category-grid {
-                grid-template-columns: repeat(4, 1fr);
-                gap: 10px;
-            }
-            .category-card {
-                display: flex;
-                flex-direction: column;
-                aspect-ratio: auto;
-            }
-            .category-card img {
-                height: 15vh;
-                flex-shrink: 0;
-            }
-            .category-card .card-body {
-                position: static;
-                background: transparent;
-                padding: 5px;
-                text-align: center;
-                margin: 0;
-            }
-            .category-card h5 {
-                font-size: 14px;
-                color: #333;
-                text-shadow: none;
-            }
-            .menu-item {
-                padding: 15px;
-            }
-            .menu-item h4 {
-                font-size: 18px;
-            }
-        }
-        @media (max-width: 576px) {
-            .hero-video {
-                height: 55vh;
-            }
-            .logo {
-                top: 60vh;
-            }
-            .logo img {
-                width: 200px;
-                height: 130px;
-            }
-            .menu-button {
-                padding: 12px 40px;
-                font-size: 16px;
-                letter-spacing: 0.5px;
-                width: 85vw;
-                left: 7.5vw;
-            }
-            .language-buttons {
-                bottom: 90px;
-                right: 8px;
-            }
-            .language-buttons a {
-                padding: 6px 10px;
-                font-size: 12px;
-                min-width: 40px;
-                min-height: 40px;
-            }
-            .menu-language-buttons {
-                bottom: 8px;
-                right: 8px;
-            }
-            .menu-language-buttons a {
-                padding: 6px 10px;
-                font-size: 12px;
-                min-width: 40px;
-                min-height: 40px;
-            }
-            .category-grid {
-                grid-template-columns: 2fr;
-                gap: 10px;
-            }
-            .category-card img {
-                height: 25vh;
-            }
-            .category-card h5 {
-                font-size: 20px;
-            }
-            .menu-item {
-                padding: 12px;
-            }
-            .menu-item h4 {
-                font-size: 16px;
-            }
-            .container {
-                padding-left: 8px;
-                padding-right: 8px;
-            }
-        }
-        @media (max-width: 480px) {
-            .hero-video {
-                height: 50vh;
-            }
-            .logo {
-                top: 40vh;
-            }
-            .logo img {
-                width: 100px;
-                height: 80px;
-            }
-            .menu-button {
-                padding: 10px 30px;
-                font-size: 14px;
-                letter-spacing: 0px;
-                width: 80vw;
-                left: 10vw;
-            }
-            .language-buttons {
-                bottom: 80px;
-                right: 5px;
-            }
-            .language-buttons a {
-                padding: 5px 8px;
-                font-size: 11px;
-                min-width: 36px;
-                min-height: 36px;
-            }
-            .menu-language-buttons {
-                bottom: 5px;
-                right: 5px;
-            }
-            .menu-language-buttons a {
-                padding: 5px 8px;
-                font-size: 11px;
-                min-width: 36px;
-                min-height: 36px;
-            }
-            .category-card img {
-                height: 20vh;
-            }
-            .category-card h5 {
-                font-size: 16px;
-            }
-            .menu-item {
-                padding: 10px;
-            }
-            .menu-item h4 {
-                font-size: 14px;
-            }
-        }
+      /* WiFi Modal Styles */
+      .wifi-modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        justify-content: center;
+        align-items: center;
+      }
+      .wifi-modal-content {
+        background-color: #fff;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        text-align: center;
+        max-width: 300px;
+        width: 90%;
+        position: relative;
+      }
+      .wifi-modal-content h3 {
+        margin-bottom: 15px;
+        color: #333;
+        font-size: 24px;
+        font-weight: bold;
+      }
+      .wifi-modal-content p {
+        margin: 10px 0;
+        font-size: 18px;
+        color: #555;
+      }
+      .wifi-modal-content .wifi-password {
+        font-weight: bold;
+        color: #000;
+        font-size: 20px;
+      }
+      .close-modal {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        font-size: 28px;
+        font-weight: bold;
+        color: #aaa;
+        cursor: pointer;
+        transition: color 0.3s;
+      }
+      .close-modal:hover {
+        color: #000;
+      }
     </style>
-</head>
-<body class="entry-page">
+  </head>
+  <body class="entry-page">
     <div class="hero-section" id="hero">
-        <video class="hero-video" autoplay muted loop playsinline>
-            <source src="videos/background.mp4" type="video/mp4">
-        </video>
-        <div class="overlay"></div>
-        <div class="logo">
-            <img src="images/logo.png" alt="Noth Coffee">
-        </div>
-        <div class="bottom-right-buttons">
-            <div class="language-buttons">
-                <a href="#" class="active" data-lang="tr">TR</a>
-                <a href="#" data-lang="en">EN</a>
-                <a href="#" data-lang="ru">RU</a>
-            </div>
-            <button class="wifi-button" id="wifiButton">WiFi</button>
-            <div class="wifi-panel" id="wifiPanel">
-                <p>WiFi Şifresi: 2025NOTH</p>
-            </div>
-        </div>
-        <a href="#" class="btn menu-button" id="showMenu">Menu</a>
+      <video
+        class="hero-video"
+        autoplay
+        muted
+        loop
+        playsinline
+        webkit-playsinline
+      >
+        <source src="videos/background.mp4" type="video/mp4" />
+      </video>
+      <div class="overlay"></div>
+      <div class="logo">
+        <img src="images/logo.png" alt="Noth Coffee" />
+      </div>
+      <div class="second-logo">
+        <img src="images/entry-logo.png" alt="Noth Coffee Entry" />
+      </div>
+      <div class="third-logo">
+        <img src="images/entry-logo.png" alt="Noth Coffee Entry Flipped" />
+      </div>
+      <a
+        href="https://www.instagram.com/nothcoffee_"
+        target="_blank"
+        rel="noopener"
+        class="instagram-button"
+        aria-label="Instagram"
+      >
+        <i class="fab fa-instagram"></i>
+        <span>nothcoffee_</span>
+      </a>
+      <button class="wifi-button" onclick="showWifiInfo()">
+        <i class="fas fa-wifi"></i>
+        <span>Wifi</span>
+      </button>
+
+      <div class="language-buttons">
+        <a href="#" class="active" data-lang="tr">TUR</a>
+        <a href="#" data-lang="en">ENG</a>
+        <a href="#" data-lang="ru">RUS</a>
+      </div>
+
+      <a href="#" class="btn menu-button" id="showMenu">Menu</a>
     </div>
 
     <div class="menu-section" id="menu">
-        <div class="container">
-            <div class="categories-view" id="categoriesView">
-                <img src="images/logo.png" alt="Noth Coffee" class="d-block mx-auto mb-5" style="max-width: 200px; height: auto;">
-                <div class="category-grid" id="categoryGrid"></div>
-            </div>
-            <div class="category-view" id="categoryView">
-                <button class="back-button" id="backButton">← Geri</button>
-                <h2 class="text-center mb-5" id="categoryTitle"></h2>
-                <div id="categoryContent"></div>
-            </div>
+      <div class="menu-language-buttons">
+        <a href="#" class="active" data-lang="tr">TR</a>
+        <a href="#" data-lang="en">EN</a>
+        <a href="#" data-lang="ru">RU</a>
+      </div>
+      <div class="container">
+        <div class="categories-view" id="categoriesView">
+          <img
+            src="images/logo.png"
+            alt="Noth Coffee"
+            class="d-block mx-auto mb-5"
+            style="max-width: 200px; height: auto"
+          />
+          <div class="category-grid" id="categoryGrid"></div>
         </div>
+        <div class="category-view" id="categoryView">
+          <button class="back-button" id="backButton">← Geri</button>
+          <h2 class="text-center mb-5" id="categoryTitle"></h2>
+          <div id="categoryContent"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- WiFi Modal -->
+    <div id="wifi-modal" class="wifi-modal">
+      <div class="wifi-modal-content">
+        <span class="close-modal" onclick="closeWifiModal()">&times;</span>
+        <h3>WiFi Bilgileri</h3>
+        <p>Ağ Adı: <span class="wifi-password">noth2025</span></p>
+        <p>Şifre: <span class="wifi-password">2025NOTH</span></p>
+      </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-        // Force video to play
-        document.addEventListener('DOMContentLoaded', function() {
-            const video = document.querySelector('.hero-video');
-            video.play().catch(function(error) {
-                console.log('Video autoplay failed:', error);
-            });
-        });
+      // Force video to play and ensure continuous loop on mobile without native controls
+      document.addEventListener("DOMContentLoaded", function () {
+        const video = document.querySelector(".hero-video");
+        try {
+          // Prefer inline playback on mobile (iOS/Android)
+          video.playsInline = true;
+          video.setAttribute("playsinline", "");
+          video.setAttribute("webkit-playsinline", "");
 
-        let currentLang = 'tr';
-        let menuData = null;
+          // Ensure muted and loop for autoplay reliability
+          video.muted = true;
+          video.loop = true;
 
-        // Language button event listeners for hero section
-        document.querySelectorAll('.language-buttons a').forEach(button => {
-            button.addEventListener('click', function(e) {
-                e.preventDefault();
-                currentLang = this.getAttribute('data-lang');
-                document.querySelectorAll('.language-buttons a').forEach(btn => btn.classList.remove('active'));
-                this.classList.add('active');
-                if (document.getElementById('menu').style.display === 'block') {
-                    loadMenu();
-                }
-            });
-        });
+          // Hide native controls if any are present
+          try {
+            video.controls = false;
+          } catch (e) {}
 
+          // Some mobile browsers may not respect loop consistently — ensure restart on ended
+          video.addEventListener("ended", function () {
+            try {
+              video.currentTime = 0;
+              video.play().catch(() => {});
+            } catch (err) {}
+          });
 
-
-        document.getElementById('showMenu').addEventListener('click', function(e) {
-            e.preventDefault();
-            document.getElementById('hero').style.display = 'none';
-            document.getElementById('menu').style.display = 'block';
-            loadMenu();
-        });
-
-        document.getElementById('backButton').addEventListener('click', function() {
-            document.getElementById('categoriesView').style.display = 'block';
-            document.getElementById('categoryView').style.display = 'none';
-        });
-
-        // WiFi button functionality
-        document.getElementById('wifiButton').addEventListener('click', function() {
-            const panel = document.getElementById('wifiPanel');
-            panel.style.display = panel.style.display === 'none' || panel.style.display === '' ? 'block' : 'none';
-        });
-
-        // Close wifi panel when clicking outside
-        document.addEventListener('click', function(event) {
-            const panel = document.getElementById('wifiPanel');
-            const button = document.getElementById('wifiButton');
-            if (!panel.contains(event.target) && !button.contains(event.target)) {
-                panel.style.display = 'none';
-            }
-        });
-
-        function loadMenu() {
-            fetch(`https://nothbackend.onrender.com/api/menu/${currentLang}`)
-                .then(response => response.json())
-                .then(data => {
-                    menuData = data;
-                    showCategories();
-                })
-                .catch(error => console.error('Error loading menu:', error));
+          // Try to start playback
+          video.play().catch(function (error) {
+            console.log("Video autoplay failed:", error);
+          });
+        } catch (err) {
+          console.warn("Video setup failed:", err);
         }
+      });
 
-        function showCategories() {
-            const categoryGrid = document.getElementById('categoryGrid');
-            categoryGrid.innerHTML = '';
-            menuData.categories.forEach((category, index) => {
-                const categoryCard = document.createElement('div');
-                categoryCard.className = 'category-card';
-                categoryCard.onclick = () => showCategory(index);
-                categoryCard.innerHTML = `
+      let currentLang = "tr";
+      let menuData = null;
+
+      // Language button event listeners for hero section
+      document.querySelectorAll(".language-buttons a").forEach((button) => {
+        button.addEventListener("click", function (e) {
+          e.preventDefault();
+          currentLang = this.getAttribute("data-lang");
+          document
+            .querySelectorAll(".language-buttons a")
+            .forEach((btn) => btn.classList.remove("active"));
+          this.classList.add("active");
+          // Also update menu language buttons if they exist
+          document
+            .querySelectorAll(".menu-language-buttons a")
+            .forEach((btn) => {
+              if (btn.getAttribute("data-lang") === currentLang) {
+                btn.classList.add("active");
+              } else {
+                btn.classList.remove("active");
+              }
+            });
+        });
+      });
+
+      // Language button event listeners for menu section
+      document.querySelectorAll(".menu-language-buttons a").forEach((button) => {
+        button.addEventListener("click", function (e) {
+          e.preventDefault();
+          currentLang = this.getAttribute("data-lang");
+          document
+            .querySelectorAll(".menu-language-buttons a")
+            .forEach((btn) => btn.classList.remove("active"));
+          this.classList.add("active");
+          loadMenu();
+          // Also update hero language buttons
+          document
+            .querySelectorAll(".language-buttons a")
+            .forEach((btn) => {
+              if (btn.getAttribute("data-lang") === currentLang) {
+                btn.classList.add("active");
+              } else {
+                btn.classList.remove("active");
+              }
+            });
+        });
+      });
+
+      document
+        .getElementById("showMenu")
+        .addEventListener("click", function (e) {
+          e.preventDefault();
+          document.getElementById("hero").style.display = "none";
+          document.getElementById("menu").style.display = "block";
+          loadMenu();
+        });
+
+      document
+        .getElementById("backButton")
+        .addEventListener("click", function () {
+          document.getElementById("categoriesView").style.display = "block";
+          document.getElementById("categoryView").style.display = "none";
+        });
+
+
+
+      function loadMenu() {
+        // Use local API endpoint for faster loading
+        const apiUrl = window.location.origin + `/api/menu/${currentLang}`;
+
+        fetch(apiUrl)
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+          })
+          .then((data) => {
+            menuData = data;
+            // Small delay to ensure DOM is ready
+            setTimeout(() => {
+              showCategories();
+            }, 100);
+          })
+          .catch((error) => {
+            console.error("Error loading menu:", error);
+            // Fallback: try the old URL if local fails
+            fetch(`https://nothbackend.onrender.com/api/menu/${currentLang}`)
+              .then((response) => response.json())
+              .then((data) => {
+                menuData = data;
+                setTimeout(() => {
+                  showCategories();
+                }, 100);
+              })
+              .catch((err) => console.error("Fallback also failed:", err));
+          });
+      }
+
+      function showCategories() {
+        const categoryGrid = document.getElementById("categoryGrid");
+        if (!categoryGrid) {
+          console.error("categoryGrid element not found!");
+          return;
+        }
+        categoryGrid.innerHTML = "";
+        if (!menuData || !menuData.categories) {
+          console.error("Menu data is not available!");
+          return;
+        }
+        menuData.categories.forEach((category, index) => {
+          const categoryCard = document.createElement("div");
+          categoryCard.className = "category-card";
+          categoryCard.onclick = () => showCategory(index);
+          categoryCard.innerHTML = `
                     <img src="${category.image}" alt="${category.name}">
                     <div class="card-body">
                         <h5>${category.name}</h5>
                     </div>
                 `;
-                categoryGrid.appendChild(categoryCard);
-            });
-        }
+          categoryGrid.appendChild(categoryCard);
+        });
+      }
 
-        function showCategory(index) {
-            const category = menuData.categories[index];
-            document.getElementById('categoriesView').style.display = 'none';
-            document.getElementById('categoryView').style.display = 'block';
-            document.getElementById('categoryTitle').textContent = category.name;
+      function showCategory(index) {
+        const category = menuData.categories[index];
+        document.getElementById("categoriesView").style.display = "none";
+        document.getElementById("categoryView").style.display = "block";
+        document.getElementById("categoryTitle").textContent = category.name;
 
-            const categoryContent = document.getElementById('categoryContent');
-            categoryContent.innerHTML = '';
-            category.items.forEach(item => {
-                const itemDiv = document.createElement('div');
-                itemDiv.className = 'menu-item';
-                itemDiv.innerHTML = `
+        const categoryContent = document.getElementById("categoryContent");
+        categoryContent.innerHTML = "";
+        category.items.forEach((item) => {
+          const itemDiv = document.createElement("div");
+          itemDiv.className = "menu-item";
+          itemDiv.innerHTML = `
                     <h3>${item.name}</h3>
                     <p>${item.description}</p>
                     <span class="price">${item.price}</span>
                 `;
-                categoryContent.appendChild(itemDiv);
-            });
+          categoryContent.appendChild(itemDiv);
+        });
+      }
+
+      function showWifiInfo() {
+        const modal = document.getElementById('wifi-modal');
+        modal.style.display = 'flex';
+      }
+
+      function closeWifiModal() {
+        const modal = document.getElementById('wifi-modal');
+        modal.style.display = 'none';
+      }
+
+      // Close modal when clicking outside
+      window.onclick = function(event) {
+        const modal = document.getElementById('wifi-modal');
+        if (event.target == modal) {
+          modal.style.display = 'none';
         }
+      }
     </script>
-</body>
+  </body>
 </html>
