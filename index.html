@@ -199,7 +199,6 @@
         padding: 0 !important;
       }
 
-
       .menu-button {
         z-index: 10;
         background-color: #000000;
@@ -272,7 +271,8 @@
         text-decoration: none;
         font-weight: 600;
         letter-spacing: 1px;
-        transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+        transition: transform 0.15s ease, box-shadow 0.15s ease,
+          opacity 0.15s ease;
         cursor: pointer;
         border: none;
       }
@@ -743,6 +743,49 @@
       .close-modal:hover {
         color: #000;
       }
+      /* Generic responsive helpers (keeps changes small & safe) */
+      * {
+        box-sizing: border-box;
+      }
+      img,
+      video {
+        max-width: 100%;
+        height: auto;
+        display: block;
+      }
+      .hero-video {
+        width: 100%;
+        height: auto;
+        min-height: 40vh;
+        max-height: 80vh;
+        object-fit: cover;
+      }
+      .logo img,
+      .second-logo img,
+      .third-logo img {
+        max-width: 100%;
+        height: auto;
+      }
+
+      /* Reduce visual clutter on very small screens */
+      @media (max-width: 600px) {
+        .second-logo,
+        .third-logo {
+          display: none;
+        }
+        .instagram-button {
+          top: auto;
+          bottom: 120px;
+          left: 50%;
+          transform: translateX(-50%);
+        }
+        .wifi-button {
+          top: auto;
+          bottom: 70px;
+          left: 15%;
+          transform: translateX(-50%);
+        }
+      }
     </style>
   </head>
   <body class="entry-page">
@@ -890,27 +933,27 @@
       });
 
       // Language button event listeners for menu section
-      document.querySelectorAll(".menu-language-buttons a").forEach((button) => {
-        button.addEventListener("click", function (e) {
-          e.preventDefault();
-          currentLang = this.getAttribute("data-lang");
-          document
-            .querySelectorAll(".menu-language-buttons a")
-            .forEach((btn) => btn.classList.remove("active"));
-          this.classList.add("active");
-          loadMenu();
-          // Also update hero language buttons
-          document
-            .querySelectorAll(".language-buttons a")
-            .forEach((btn) => {
+      document
+        .querySelectorAll(".menu-language-buttons a")
+        .forEach((button) => {
+          button.addEventListener("click", function (e) {
+            e.preventDefault();
+            currentLang = this.getAttribute("data-lang");
+            document
+              .querySelectorAll(".menu-language-buttons a")
+              .forEach((btn) => btn.classList.remove("active"));
+            this.classList.add("active");
+            loadMenu();
+            // Also update hero language buttons
+            document.querySelectorAll(".language-buttons a").forEach((btn) => {
               if (btn.getAttribute("data-lang") === currentLang) {
                 btn.classList.add("active");
               } else {
                 btn.classList.remove("active");
               }
             });
+          });
         });
-      });
 
       document
         .getElementById("showMenu")
@@ -927,8 +970,6 @@
           document.getElementById("categoriesView").style.display = "block";
           document.getElementById("categoryView").style.display = "none";
         });
-
-
 
       function loadMenu() {
         // Use local API endpoint for faster loading
@@ -1009,22 +1050,22 @@
       }
 
       function showWifiInfo() {
-        const modal = document.getElementById('wifi-modal');
-        modal.style.display = 'flex';
+        const modal = document.getElementById("wifi-modal");
+        modal.style.display = "flex";
       }
 
       function closeWifiModal() {
-        const modal = document.getElementById('wifi-modal');
-        modal.style.display = 'none';
+        const modal = document.getElementById("wifi-modal");
+        modal.style.display = "none";
       }
 
       // Close modal when clicking outside
-      window.onclick = function(event) {
-        const modal = document.getElementById('wifi-modal');
+      window.onclick = function (event) {
+        const modal = document.getElementById("wifi-modal");
         if (event.target == modal) {
-          modal.style.display = 'none';
+          modal.style.display = "none";
         }
-      }
+      };
     </script>
   </body>
 </html>
