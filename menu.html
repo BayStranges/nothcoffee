@@ -1,54 +1,147 @@
 ﻿<!DOCTYPE html>
 <html lang="tr">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Noth Coffee</title>
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
-    />
-    <link rel="stylesheet" href="styles.css" />
-  </head>
-  <body class="entry-page">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+        }
+        .entry-page {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+            padding: 20px;
+        }
+        .entry-logo img {
+            width: 200px;
+            height: auto;
+            margin-bottom: 30px;
+        }
+        .language-buttons {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+        .language-buttons div {
+            margin: 0 10px;
+        }
+        .language-buttons a {
+            color: #333;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 10px 20px;
+            border-radius: 5px;
+            background-color: #e9ecef;
+            transition: background-color 0.3s;
+        }
+        .language-buttons a:hover {
+            background-color: #dee2e6;
+        }
+        .language-buttons .active a {
+            background-color: #007bff;
+            color: white;
+        }
+        .entry-button a {
+            display: inline-block;
+            background-color: #000000;
+            color: white;
+            padding: 15px 50px;
+            font-size: 20px;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .entry-button a:hover {
+            background-color: #333;
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .entry-logo img {
+                width: 150px;
+            }
+            .language-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            .language-buttons div {
+                margin: 5px 0;
+            }
+            .language-buttons a {
+                padding: 8px 16px;
+                font-size: 14px;
+            }
+            .entry-button a {
+                padding: 12px 40px;
+                font-size: 18px;
+            }
+        }
+        @media (max-width: 576px) {
+            .entry-logo img {
+                width: 120px;
+            }
+            .entry-button a {
+                padding: 10px 30px;
+                font-size: 16px;
+            }
+        }
+        @media (max-width: 480px) {
+            .entry-logo img {
+                width: 100px;
+            }
+            .entry-button a {
+                padding: 8px 25px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body class="entry-page">
     <div class="entry-logo">
-      <img src="images/entry-logo.png" alt="Noth Coffee" />
+        <img src="images/entry-logo.png" alt="Noth Coffee">
     </div>
     <div class="language-buttons">
-      <div class="active">
-        <a href="#" data-lang="tr">TR</a>
-      </div>
-      <div>
-        <a href="#" data-lang="en">EN</a>
-      </div>
-      <div>
-        <a href="#" data-lang="ru">RU</a>
-      </div>
+        <div class="active">
+            <a href="#" data-lang="tr">TR</a>
+        </div>
+        <div>
+            <a href="#" data-lang="en">EN</a>
+        </div>
+        <div>
+            <a href="#" data-lang="ru">RU</a>
+        </div>
     </div>
     <div class="entry-button">
-      <a href="index.html">Menu</a>
+        <a href="index.html">Menu</a>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-      // Language button event listeners
-      document.querySelectorAll(".language-buttons a").forEach((button) => {
-        button.addEventListener("click", function (e) {
-          e.preventDefault();
-          const lang = this.getAttribute("data-lang");
-          document
-            .querySelectorAll(".language-buttons div")
-            .forEach((div) => div.classList.remove("active"));
-          this.parentElement.classList.add("active");
-          // Here you can add logic to change language if needed
+        // Language button event listeners
+        document.querySelectorAll('.language-buttons a').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                const lang = this.getAttribute('data-lang');
+                document.querySelectorAll('.language-buttons div').forEach(div => div.classList.remove('active'));
+                this.parentElement.classList.add('active');
+                // Here you can add logic to change language if needed
+            });
         });
-      });
     </script>
-  </body>
+</body>
 </html>
